@@ -58,9 +58,80 @@ footer{text-align:center;padding:22px;font:11px Arial;color:var(--muted)}
 <div class="controls"><button class="secondary" id="prev" disabled>← Previous</button><span class="counter" id="count">Slide 1 of 9</span><button id="next">Next →</button></div>
 </main></div><footer>Naileditby_gel Learn · Learn. Practice. Perfect.</footer>
 <script>
-const slides=[...document.querySelectorAll('.slide')];let current=0;let completed=localStorage.getItem('gel-learn-lesson-01-complete')==='true';
-if(completed){document.getElementById('completionBadge').textContent='✓ Lesson completed';document.getElementById('next').textContent='Completed ✓';document.getElementById('next').disabled=true;}\nfunction show(i){current=Math.max(0,Math.min(slides.length-1,i));slides.forEach((s,n)=>s.classList.toggle('active',n===current));document.getElementById('prev').disabled=current===0;document.getElementById('next').textContent=current===slides.length-1?(completed?'Completed ✓':'Complete lesson'):'Next →';document.getElementById('count').textContent='Slide '+(current+1)+' of '+slides.length;document.getElementById('bar').style.width=((current+1)/slides.length*100)+'%';if(current===slides.length-1&&!completed){document.getElementById('completionBadge').textContent='Completion status: ready to complete';}}
-document.getElementById('prev').addEventListener('click',()=>show(current-1));document.getElementById('next').addEventListener('click',()=>{if(current===slides.length-1){completed=true;localStorage.setItem('gel-learn-lesson-01-complete','true');document.getElementById('completionBadge').textContent='✓ Lesson completed';document.getElementById('next').textContent='Completed ✓';document.getElementById('next').disabled=true;document.getElementById('bar').style.width='100%';}else show(current+1);});
-document.getElementById('check').addEventListener('click',()=>{const answers={q1:'b',q2:'b',q3:'a',q4:'b',q5:'c'};const why={q1:'The matrix is the growth area that produces the cells forming the nail plate.',q2:'The cuticle is non-living tissue attached to the nail plate. The eponychium is living skin at the proximal nail fold.',q3:'Curing hardens a compatible gel product using the lamp and curing time specified by its manufacturer.',q4:'An overlay adds product over the natural nail without extending its length.',q5:'Stop the service, follow appropriate first-aid and hygiene procedures, and do not apply product over broken skin.'};let score=0,answered=0;let explanations=[];Object.entries(answers).forEach(([q,a],i)=>{const picked=document.querySelector('input[name="'+q+'"]:checked');if(picked){answered++;const correct=picked.value===a;if(correct)score++;explanations.push('<div class="tile"><b>Question '+(i+1)+': '+(correct?'Correct':'Not quite')+'</b><p>'+why[q]+'</p></div>');}});const result=document.getElementById('result');result.textContent=answered<5?'Please answer all five questions first.':'You scored '+score+' out of 5. '+(score===5?'Excellent work!':'Review the explanations below, then try again.');document.getElementById('feedback').innerHTML=answered===5?explanations.join(''):'';});
-document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')show(current+1);if(e.key==='ArrowLeft')show(current-1)});
+const slides = [...document.querySelectorAll('.slide')];
+let current = 0;
+let completed = localStorage.getItem('gel-learn-lesson-01-complete') === 'true';
+const prevButton = document.getElementById('prev');
+const nextButton = document.getElementById('next');
+const badge = document.getElementById('completionBadge');
+
+if (completed) {
+  badge.textContent = '✓ Lesson completed';
+}
+
+function show(index) {
+  current = Math.max(0, Math.min(slides.length - 1, index));
+  slides.forEach((slide, i) => slide.classList.toggle('active', i === current));
+  prevButton.disabled = current === 0;
+  nextButton.disabled = completed && current === slides.length - 1;
+  nextButton.textContent = current === slides.length - 1
+    ? (completed ? 'Completed ✓' : 'Complete lesson')
+    : 'Next →';
+  document.getElementById('count').textContent = 'Slide ' + (current + 1) + ' of ' + slides.length;
+  document.getElementById('bar').style.width = ((current + 1) / slides.length * 100) + '%';
+  if (current === slides.length - 1 && !completed) {
+    badge.textContent = 'Completion status: ready to complete';
+  } else if (completed) {
+    badge.textContent = '✓ Lesson completed';
+  }
+}
+
+prevButton.addEventListener('click', () => show(current - 1));
+nextButton.addEventListener('click', () => {
+  if (current === slides.length - 1) {
+    completed = true;
+    localStorage.setItem('gel-learn-lesson-01-complete', 'true');
+    badge.textContent = '✓ Lesson completed';
+    show(current);
+  } else {
+    show(current + 1);
+  }
+});
+
+document.getElementById('check').addEventListener('click', () => {
+  const answers = { q1: 'b', q2: 'b', q3: 'a', q4: 'b', q5: 'c' };
+  const why = {
+    q1: 'The matrix is the growth area that produces the cells forming the nail plate.',
+    q2: 'The cuticle is non-living tissue attached to the nail plate. The eponychium is living skin at the proximal nail fold.',
+    q3: 'Curing hardens a compatible gel product using the lamp and curing time specified by its manufacturer.',
+    q4: 'An overlay adds product over the natural nail without extending its length.',
+    q5: 'Stop the service, follow appropriate first-aid and hygiene procedures, and do not apply product over broken skin.'
+  };
+  let score = 0;
+  let answered = 0;
+  const explanations = [];
+  Object.entries(answers).forEach(([question, answer], index) => {
+    const picked = document.querySelector('input[name="' + question + '"]:checked');
+    if (picked) {
+      answered++;
+      const correct = picked.value === answer;
+      if (correct) score++;
+      explanations.push('<div class="tile"><b>Question ' + (index + 1) + ': ' +
+        (correct ? 'Correct' : 'Not quite') + '</b><p>' + why[question] + '</p></div>');
+    }
+  });
+  const result = document.getElementById('result');
+  result.textContent = answered < 5
+    ? 'Please answer all five questions first.'
+    : 'You scored ' + score + ' out of 5. ' +
+      (score === 5 ? 'Excellent work!' : 'Review the explanations below, then try again.');
+  document.getElementById('feedback').innerHTML = answered === 5 ? explanations.join('') : '';
+});
+
+document.addEventListener('keydown', event => {
+  if (event.key === 'ArrowRight') show(current + 1);
+  if (event.key === 'ArrowLeft') show(current - 1);
+});
+
+show(0);
 </script></body></html>
