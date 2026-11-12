@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#754c5a">
+<title>Student Account | Naileditby_gel Learn</title>
+<style>
+:root{--pink:#f8edf0;--rose:#754c5a;--gold:#b89a62;--ink:#493940;--muted:#786a70;--paper:#fffaf8;--line:#eadde0}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px Georgia;line-height:1.6}
+.top{background:var(--rose);color:#fff;text-align:center;padding:10px;font:11px Arial;letter-spacing:.14em}
+.wrap{width:min(1040px,calc(100% - 32px));margin:auto}
+header{display:flex;justify-content:space-between;align-items:center;padding:18px 0;gap:14px}
+.brand{color:var(--rose);text-decoration:none;font-size:19px}.brand small{display:block;color:var(--gold);font:10px Arial;letter-spacing:.2em}
+a{color:var(--rose)}h1,h2,h3{font-weight:400;color:var(--rose);line-height:1.2}h1{font-size:clamp(34px,6vw,54px);margin:10px 0}h2{font-size:32px}
+p{color:var(--muted)}.eyebrow{font:11px Arial;letter-spacing:.16em;color:var(--gold);text-transform:uppercase}
+main{padding:22px 0 70px}.hero{background:linear-gradient(120deg,var(--pink),#f3e3e6);border-radius:22px;padding:30px;margin-bottom:24px}
+.panel,.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px;box-shadow:0 12px 35px #754c5a0b}
+.auth-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.field{margin:12px 0}label{display:block;color:var(--rose);font:12px Arial;margin-bottom:6px}
+input,select{width:100%;padding:12px 13px;border:1px solid #dfcdd2;border-radius:10px;background:#fffaf8;font:15px Arial;color:var(--ink)}
+button,.btn{border:0;border-radius:24px;padding:12px 20px;background:var(--rose);color:#fff;font:13px Arial;cursor:pointer;text-decoration:none;display:inline-block}
+button.secondary,.btn.secondary{background:#f5e8eb;color:var(--rose);border:1px solid #e5cfd6}
+button:disabled{opacity:.45;cursor:not-allowed}
+.message{padding:12px 14px;border-radius:10px;background:#f8edf0;color:var(--rose);font:13px Arial;margin:12px 0;display:none}
+.message.show{display:block}.muted{font-size:13px}.hidden{display:none!important}
+.dashboard-head{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}.stat{background:#fff7f7;border:1px solid var(--line);border-radius:14px;padding:16px}.stat b{display:block;font:25px Georgia;color:var(--rose)}
+.course-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}.course{border:1px solid var(--line);border-radius:15px;padding:18px;background:#fff}.course .price{font:26px Georgia;color:var(--gold)}.pill{display:inline-block;border:1px solid #e4d3d8;border-radius:20px;padding:5px 10px;font:10px Arial;color:var(--rose);letter-spacing:.08em}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:22px 0}.tabs button{background:#f5e8eb;color:var(--rose)}.tabs button.active{background:var(--rose);color:#fff}
+table{width:100%;border-collapse:collapse;font:13px Arial}th,td{text-align:left;padding:11px;border-bottom:1px solid var(--line)}th{color:var(--rose)}
+footer{text-align:center;padding:24px;font:11px Arial;color:var(--muted)}
+@media(max-width:760px){.auth-grid,.course-grid{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}header{align-items:flex-start}}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.0/dist/umd/supabase.min.js"></script>
+</head>
+<body>
+<div class="top">NAILEDITBY_GEL LEARN · STUDENT SPACE</div>
+<div class="wrap">
+<header><a class="brand" href="index.html"><strong>Naileditby_gel</strong><small>LEARN · PRACTICE · PERFECT</small></a><a href="index.html">← Learning hub</a></header>
+<main>
+<section class="hero"><div class="eyebrow">YOUR LEARNING JOURNEY</div><h1>Welcome to your<br><em>student space.</em></h1><p>Register, choose your learning path, keep track of your lessons and view your payment history—all in one place.</p></section>
+<div id="authView" class="auth-grid">
+<section class="panel"><div class="eyebrow">NEW HERE?</div><h2>Create your account</h2><p class="muted">Use an email address you can access. We'll send a confirmation email if email verification is enabled.</p>
+<form id="signupForm">
+<div class="field"><label for="signupName">Full name</label><input id="signupName" autocomplete="name" required maxlength="100"></div>
+<div class="field"><label for="signupEmail">Email address</label><input id="signupEmail" type="email" autocomplete="email" required></div>
+<div class="field"><label for="signupPassword">Password</label><input id="signupPassword" type="password" autocomplete="new-password" minlength="8" required></div>
+<button type="submit">Create student account</button></form><div id="signupMessage" class="message" role="status"></div></section>
+<section class="panel"><div class="eyebrow">WELCOME BACK</div><h2>Sign in</h2><p class="muted">Already registered? Sign in to continue learning.</p>
+<form id="signinForm">
+<div class="field"><label for="signinEmail">Email address</label><input id="signinEmail" type="email" autocomplete="email" required></div>
+<div class="field"><label for="signinPassword">Password</label><input id="signinPassword" type="password" autocomplete="current-password" required></div>
+<button type="submit">Sign in</button></form>
+<div class="field"><button id="resetPassword" type="button" class="secondary">Forgot password?</button></div><div id="signinMessage" class="message" role="status"></div></section>
+</div>
+<section id="dashboardView" class="hidden">
+<div class="panel"><div class="dashboard-head"><div><div class="eyebrow">STUDENT DASHBOARD</div><h2 id="welcomeName">Welcome!</h2><p id="studentEmail" class="muted"></p></div><button id="signoutButton" class="secondary">Sign out</button></div>
+<div class="stats"><div class="stat"><b id="enrolledCount">0</b><span class="muted">Learning paths</span></div><div class="stat"><b id="completedCount">0</b><span class="muted">Lessons completed</span></div><div class="stat"><b id="pendingCount">0</b><span class="muted">Pending payments</span></div></div>
+<div class="tabs" role="tablist"><button class="active" data-tab="courses">My learning paths</button><button data-tab="payments">Payment history</button><button data-tab="profile">My profile</button></div>
+<div id="tab-courses"><h2>Explore learning paths</h2><p class="muted">A one-time purchase gives lifetime access to that learning path after payment approval.</p><div id="courseGrid" class="course-grid"></div><h2 style="margin-top:32px">Your lesson progress</h2><div id="progressList"><p class="muted">Your lesson activity will appear here once you are enrolled.</p></div></div>
+<div id="tab-payments" class="hidden"><h2>Payment history</h2><div id="paymentHistory"><p class="muted">No payment records yet.</p></div></div>
+<div id="tab-profile" class="hidden"><h2>My profile</h2><form id="profileForm"><div class="field"><label for="profileName">Full name</label><input id="profileName" required maxlength="100"></div><div class="field"><label for="profilePhone">Phone number (optional)</label><input id="profilePhone" type="tel" maxlength="30"></div><button type="submit">Save profile</button></form><div id="profileMessage" class="message" role="status"></div><p class="muted" style="margin-top:22px">Want to book a nail appointment or view our services? <a href="https://naileditby-gel.com/">Visit the Naileditby_gel main website</a>.</p></div>
+</div>
+</section>
+</main></div><footer>Naileditby_gel Learn · Learn. Practice. Perfect.</footer>
+<script>
+(() => {
+ const SUPABASE_URL = 'https://vlocuitjamseqpzqohgs.supabase.co';
+ const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_bodb7BhOwkONRc5gy41ZLQ_pYOKCfCa';
+ const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+ const $ = id => document.getElementById(id);
+ const showMessage = (id, message) => { const el=$(id); el.textContent=message; el.classList.add('show'); };
+ const clearMessage = id => { const el=$(id); el.textContent=''; el.classList.remove('show'); };
+ const authView=$('authView'), dashboardView=$('dashboardView');
+ let currentUser=null;
+
+ $('signupForm').addEventListener('submit', async e => {
+   e.preventDefault(); clearMessage('signupMessage');
+   const full_name=$('signupName').value.trim(), email=$('signupEmail').value.trim(), password=$('signupPassword').value;
+   const {data,error}=await client.auth.signUp({email,password,options:{data:{full_name},emailRedirectTo:location.origin+location.pathname}});
+   if(error){showMessage('signupMessage',error.message);return;}
+   if(data.session){await client.from('learning_profiles').upsert({user_id:data.user.id,full_name});showMessage('signupMessage','Your account is ready. Welcome to Naileditby_gel Learn!');await refreshSession();}
+   else showMessage('signupMessage','Registration received! Please check your email and confirm your address before signing in.');
+ });
+ $('signinForm').addEventListener('submit', async e => {
+   e.preventDefault();clearMessage('signinMessage');
+   const {error}=await client.auth.signInWithPassword({email:$('signinEmail').value.trim(),password:$('signinPassword').value});
+   if(error){showMessage('signinMessage',error.message);return;} await refreshSession();
+ });
+ $('resetPassword').addEventListener('click',async()=>{
+   const email=$('signinEmail').value.trim();
+   if(!email){showMessage('signinMessage','Enter your email address above first.');return;}
+   const {error}=await client.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname});
+   showMessage('signinMessage',error?'Unable to send reset email: '+error.message:'Password reset email sent. Please check your inbox.');
+ });
+ $('signoutButton').addEventListener('click',async()=>{await client.auth.signOut();currentUser=null;showAuth();});
+ $('profileForm').addEventListener('submit',async e=>{
+   e.preventDefault();if(!currentUser)return;
+   const {error}=await client.from('learning_profiles').upsert({user_id:currentUser.id,full_name:$('profileName').value.trim(),phone:$('profilePhone').value.trim()||null});
+   showMessage('profileMessage',error?'Unable to save profile: '+error.message:'Your profile has been saved.');
+ });
+ document.querySelectorAll('[data-tab]').forEach(button=>button.addEventListener('click',()=>{
+   document.querySelectorAll('[data-tab]').forEach(b=>b.classList.toggle('active',b===button));
+   ['courses','payments','profile'].forEach(tab=>$('tab-'+tab).classList.toggle('hidden',tab!==button.dataset.tab));
+ }));
+ function showAuth(){authView.classList.remove('hidden');dashboardView.classList.add('hidden');}
+ async function refreshSession(){
+   const {data:{session}}=await client.auth.getSession();
+   if(!session){currentUser=null;showAuth();return;}
+   currentUser=session.user;authView.classList.add('hidden');dashboardView.classList.remove('hidden');
+   await loadDashboard();
+ }
+ async function loadDashboard(){
+   $('studentEmail').textContent=currentUser.email||'';
+   const {data:profile}=await client.from('learning_profiles').select('full_name,phone').eq('user_id',currentUser.id).maybeSingle();
+   if(!profile){await client.from('learning_profiles').insert({user_id:currentUser.id,full_name:currentUser.user_metadata?.full_name||''});}
+   $('welcomeName').textContent='Welcome, '+(profile?.full_name||currentUser.user_metadata?.full_name||'Student')+'!';
+   $('profileName').value=profile?.full_name||currentUser.user_metadata?.full_name||'';
+   $('profilePhone').value=profile?.phone||'';
+   const [courses,orders,payments,enrollments,progress]=await Promise.all([
+     client.from('learning_courses').select('id,slug,title,level,description,price_php,lifetime_access,is_published').order('display_order'),
+     client.from('learning_orders').select('id,course_id,amount_php,status,created_at').eq('user_id',currentUser.id).order('created_at',{ascending:false}),
+     client.from('learning_payments').select('id,order_id,amount_php,payment_method,payment_reference,status,submitted_at,reviewed_at').eq('user_id',currentUser.id).order('submitted_at',{ascending:false}),
+     client.from('learning_enrollments').select('id,course_id,granted_at').eq('user_id',currentUser.id),
+     client.from('learning_lesson_progress').select('id,status,progress_percent,updated_at').eq('user_id',currentUser.id)
+   ]);
+   if(courses.error||orders.error||payments.error||enrollments.error||progress.error){console.error(courses.error||orders.error||payments.error||enrollments.error||progress.error);}
+   const courseRows=courses.data||[], orderRows=orders.data||[], paymentRows=payments.data||[], enrollmentRows=enrollments.data||[], progressRows=progress.data||[];
+   $('enrolledCount').textContent=enrollmentRows.length;
+   $('completedCount').textContent=progressRows.filter(x=>x.status==='completed').length;
+   $('pendingCount').textContent=paymentRows.filter(x=>x.status==='submitted').length;
+   $('courseGrid').innerHTML=courseRows.map(c=>{
+     const enrolled=enrollmentRows.some(e=>e.course_id===c.id);
+     const pending=orderRows.some(o=>o.course_id===c.id&&['pending_payment','payment_submitted'].includes(o.status));
+     return '<article class="course"><span class="pill">'+c.level.toUpperCase()+'</span><h3>'+escapeHtml(c.title)+'</h3><p>'+escapeHtml(c.description||'Build your nail-tech skills step by step.')+'</p><div class="price">₱'+Number(c.price_php).toFixed(0)+'</div><p class="muted">One-time payment · Lifetime access</p><button disabled>'+(enrolled?'Enrolled ✓':pending?'Purchase request pending':c.is_published?'Enrollment opening soon':'Coming soon')+'</button></article>';
+   }).join('')||'<p class="muted">Learning paths will appear here soon.</p>';
+   $('paymentHistory').innerHTML=paymentRows.length?'<table><thead><tr><th>Date</th><th>Amount</th><th>Method</th><th>Status</th></tr></thead><tbody>'+paymentRows.map(p=>'<tr><td>'+new Date(p.submitted_at).toLocaleDateString()+'</td><td>₱'+Number(p.amount_php).toFixed(2)+'</td><td>'+escapeHtml(p.payment_method||'—')+'</td><td>'+escapeHtml(p.status)+'</td></tr>').join('')+'</tbody></table>':'<p class="muted">No payment records yet.</p>';
+   $('progressList').innerHTML=progressRows.length?'<table><thead><tr><th>Lesson</th><th>Status</th><th>Progress</th></tr></thead><tbody>'+progressRows.map(p=>'<tr><td>Lesson activity</td><td>'+escapeHtml(p.status)+'</td><td>'+p.progress_percent+'%</td></tr>').join('')+'</tbody></table>':'<p class="muted">Your lesson activity will appear here once you are enrolled.</p>';
+ }
+ function escapeHtml(value){return String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+ client.auth.onAuthStateChange((_event,session)=>{if(session&&session.user){currentUser=session.user;authView.classList.add('hidden');dashboardView.classList.remove('hidden');setTimeout(loadDashboard,0);}else{currentUser=null;showAuth();}});
+ refreshSession();
+})();
+</script>
+</body></html>
