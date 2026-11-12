@@ -53,7 +53,7 @@ footer{text-align:center;padding:24px;font:11px Arial;color:var(--muted)}
 <div class="field"><button id="resetPassword" type="button" class="secondary">Forgot password?</button></div><div id="signinMessage" class="message" role="status"></div></section>
 </div>
 <section id="dashboardView" class="hidden">
-<div class="panel"><div class="dashboard-head"><div><div class="eyebrow">STUDENT DASHBOARD</div><h2 id="welcomeName">Welcome!</h2><p id="studentEmail" class="muted"></p></div><button id="signoutButton" class="secondary">Sign out</button></div>
+<div class="panel"><div class="dashboard-head"><div><div class="eyebrow">STUDENT DASHBOARD</div><h2 id="welcomeName">Welcome!</h2><p id="studentEmail" class="muted"></p></div><div><a id="ownerReviewLink" class="btn secondary hidden" href="admin-payments.html">♡ Review payments</a> <button id="signoutButton" class="secondary">Sign out</button></div></div>
 <div class="stats"><div class="stat"><b id="enrolledCount">0</b><span class="muted">Learning paths</span></div><div class="stat"><b id="completedCount">0</b><span class="muted">Lessons completed</span></div><div class="stat"><b id="pendingCount">0</b><span class="muted">Pending payments</span></div></div>
 <div class="tabs" role="tablist"><button class="active" data-tab="courses">My learning paths</button><button data-tab="payments">Payment history</button><button data-tab="profile">My profile</button></div>
 <div id="tab-courses"><h2>Explore learning paths</h2><p class="muted">A one-time purchase gives lifetime access to that learning path after payment approval.</p><p><a class="btn" href="purchase.html">♡ Order a learning path</a></p><div id="courseGrid" class="course-grid"></div><h2 style="margin-top:32px">Your lesson progress</h2><div id="progressList"><p class="muted">Your lesson activity will appear here once you are enrolled.</p></div></div>
@@ -106,7 +106,7 @@ footer{text-align:center;padding:24px;font:11px Arial;color:var(--muted)}
  async function refreshSession(){
    const {data:{session}}=await client.auth.getSession();
    if(!session){currentUser=null;showAuth();return;}
-   currentUser=session.user;authView.classList.add('hidden');dashboardView.classList.remove('hidden');
+   currentUser=session.user;authView.classList.add('hidden');dashboardView.classList.remove('hidden');$('ownerReviewLink').classList.toggle('hidden',currentUser.app_metadata?.role!=='owner');
    await loadDashboard();
  }
  async function loadDashboard(){
@@ -142,7 +142,7 @@ footer{text-align:center;padding:24px;font:11px Arial;color:var(--muted)}
    $('progressList').innerHTML=progressRows.length?'<table><thead><tr><th>Lesson</th><th>Status</th><th>Progress</th></tr></thead><tbody>'+progressRows.map(p=>'<tr><td>'+escapeHtml(p.lesson?.title||'Lesson')+'</td><td>'+escapeHtml(p.status)+'</td><td>'+Number(p.progress_percent||0)+'%</td></tr>').join('')+'</tbody></table>':'<p class="muted">Your lesson activity will appear here once you are enrolled.</p>';
  }
  function escapeHtml(value){return String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
- client.auth.onAuthStateChange((_event,session)=>{if(session&&session.user){currentUser=session.user;authView.classList.add('hidden');dashboardView.classList.remove('hidden');setTimeout(loadDashboard,0);}else{currentUser=null;showAuth();}});
+ client.auth.onAuthStateChange((_event,session)=>{if(session&&session.user){currentUser=session.user;authView.classList.add('hidden');dashboardView.classList.remove('hidden');$('ownerReviewLink').classList.toggle('hidden',currentUser.app_metadata?.role!=='owner');setTimeout(loadDashboard,0);}else{currentUser=null;showAuth();}});
  refreshSession();
 })();
 </script>
