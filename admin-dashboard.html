@@ -20,9 +20,10 @@
 <section id="lessonsPanel" class="panel" style="margin-top:18px"><div class="eyebrow">LESSON LIBRARY</div><h2>Lessons</h2><div id="lessonList" class="muted">Loading lessons…</div></section>
 </main></div><footer>Naileditby_gel Learn · Private owner dashboard</footer>
 <script>
-(()=>{const sb=window.supabase.createClient('https://vlocuitjamseqpzqohgs.supabase.co','sb_publishable_bodb7BhOwkONRc5gy41ZLQ_pYOKCfCa');const $=id=>document.getElementById(id);const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));let user=null;
+(()=>{const $=id=>document.getElementById(id);const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));let sb=null,user=null;
+function showError(message){$('loading').classList.remove('hidden');$('loading').innerHTML='<h2>We could not finish loading</h2><p class="muted">'+esc(message)+'</p><p class="muted">Please refresh once. If it continues, send Gel this message.</p>'}
 function deny(message){$('loading').classList.add('hidden');$('dashboard').classList.add('hidden');$('denied').classList.remove('hidden');$('deniedText').textContent=message}
-async function init(){const {data:{session}}=await sb.auth.getSession();if(!session){deny('Please sign in first, then return using an authorised owner account.');return}user=session.user;if(user.app_metadata?.role!=='owner'){deny('This account does not currently have the owner role. Student accounts cannot access owner information.');return}$('loading').classList.add('hidden');$('dashboard').classList.remove('hidden');await loadDashboard()}
+async function init(){try{if(!window.supabase?.createClient){showError('The secure sign-in library did not load. Check your internet connection and refresh.');return}sb=window.supabase.createClient('https://vlocuitjamseqpzqohgs.supabase.co','sb_publishable_bodb7BhOwkONRc5gy41ZLQ_pYOKCfCa');const result=await Promise.race([sb.auth.getSession(),new Promise((_,reject)=>setTimeout(()=>reject(new Error('The sign-in session check timed out.')),12000))]);const session=result?.data?.session;if(!session){deny('Please sign in first, then return using your authorised owner account.');return}user=session.user;if(user.app_metadata?.role!=='owner'){deny('This session does not contain the owner role yet. Please sign out, sign in again, then refresh this page.');return}$('loading').classList.add('hidden');$('dashboard').classList.remove('hidden');await loadDashboard()}catch(error){showError(error?.message||'Unexpected sign-in error.')}}
 async function loadDashboard(){const [profiles,payments,enrollments,courses,lessons]=await Promise.all([
 sb.from('learning_profiles').select('user_id,full_name,phone,created_at').order('created_at',{ascending:false}),
 sb.from('learning_payments').select('id,status',{count:'exact',head:false}),
@@ -37,6 +38,6 @@ $('studentList').innerHTML=p.length?p.map(s=>'<div class="student"><div><strong>
 $('courseList').innerHTML=cs.length?cs.map(c=>'<div class="student"><div><strong>'+esc(c.title)+'</strong><div class="muted">'+esc(c.level)+' · ₱'+Number(c.price_php).toFixed(0)+'</div></div><span class="pill">'+(c.is_published?'PUBLISHED':'NOT PUBLISHED')+'</span></div>').join(''):'No learning paths found.';
 $('lessonList').innerHTML=ls.length?ls.map(l=>'<div class="student"><div><strong>'+Number(l.display_order)+'. '+esc(l.title)+'</strong><div class="muted">'+esc(l.course?.title||'Learning path')+'</div></div><span class="pill">'+(l.is_published?'PUBLISHED':'DRAFT')+'</span></div>').join(''):'No lessons found.';
 }
-$('signout').onclick=async()=>{await sb.auth.signOut();location.href='account.html'};sb.auth.onAuthStateChange((_event,session)=>{if(!session)location.href='account.html'});init();
+$('signout').onclick=async()=>{if(sb)await sb.auth.signOut();location.href='account.html'};init();
 })();
 </script></body></html>
