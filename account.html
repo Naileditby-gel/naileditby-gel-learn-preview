@@ -107,7 +107,7 @@ footer{text-align:center;padding:24px;font:11px Arial;color:var(--muted)}
  $('signupForm').addEventListener('submit', async e => {
    e.preventDefault(); clearMessage('signupMessage');
    const email=$('signupEmail').value.trim(), password=$('signupPassword').value;
-   const {data,error}=await client.auth.signUp({email,password,options:{emailRedirectTo:location.origin+location.pathname}});
+   const {data,error}=await client.auth.signUp({email,password,options:{emailRedirectTo:location.origin+location.pathname+location.search}});
    if(error){showMessage('signupMessage',error.message);return;}
    if(data.session){await client.from('learning_profiles').upsert({user_id:data.user.id});showMessage('signupMessage','Your account is ready. Welcome to Naileditby_gel Learn!');await refreshSession();}
    else showMessage('signupMessage','Registration received! Please check your email and confirm your address before signing in.');
@@ -134,10 +134,26 @@ footer{text-align:center;padding:24px;font:11px Arial;color:var(--muted)}
    ['courses','payments','profile'].forEach(tab=>$('tab-'+tab).classList.toggle('hidden',tab!==button.dataset.tab));
  }));
  function showAuth(){authView.classList.remove('hidden');dashboardView.classList.add('hidden');}
+ let lessonRedirectInProgress=false;
+ async function continueToRequestedLesson(){
+   const params=new URLSearchParams(location.search);
+   const next=params.get('next'), courseSlug=params.get('course');
+   if(!next||!courseSlug||lessonRedirectInProgress)return false;
+   if(!/^lesson-[a-z0-9-]+\\.html$/.test(next)||!['beginner','intermediate','advanced'].includes(courseSlug))return false;
+   lessonRedirectInProgress=true;
+   const {data:course,error:courseError}=await client.from('learning_courses').select('id').eq('slug',courseSlug).maybeSingle();
+   if(courseError||!course){lessonRedirectInProgress=false;showMessage('signinMessage','We could not find that learning path. Please contact us.');return true;}
+   const {data:enrollment,error}=await client.from('learning_enrollments').select('id').eq('user_id',currentUser.id).eq('course_id',course.id).maybeSingle();
+   if(error){lessonRedirectInProgress=false;showMessage('signinMessage','We could not verify your enrollment. Please try again.');return true;}
+   if(enrollment){location.replace(next);return true;}
+   location.replace('purchase.html?course='+encodeURIComponent(courseSlug));
+   return true;
+ }
  async function refreshSession(){
    const {data:{session}}=await client.auth.getSession();
    if(!session){currentUser=null;showAuth();return;}
    currentUser=session.user;authView.classList.add('hidden');dashboardView.classList.remove('hidden');$('ownerReviewLink').classList.toggle('hidden',currentUser.app_metadata?.role!=='owner');
+   if(await continueToRequestedLesson())return;
    await loadDashboard();
  }
  async function loadDashboard(){
