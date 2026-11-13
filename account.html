@@ -189,7 +189,7 @@ footer{text-align:center;padding:24px;font:11px Arial;color:var(--muted)}
    $('progressList').innerHTML=progressRows.length?'<table><thead><tr><th>Lesson</th><th>Status</th><th>Progress</th></tr></thead><tbody>'+progressRows.map(p=>'<tr><td>'+escapeHtml(p.lesson?.title||'Lesson')+'</td><td>'+escapeHtml(p.status)+'</td><td>'+Number(p.progress_percent||0)+'%</td></tr>').join('')+'</tbody></table>':'<p class="muted">Your lesson activity will appear here once you are enrolled.</p>';
    const beginner=courseRows.find(c=>c.slug==='beginner');
    if(beginner){
-     const {data:lessons}=await client.from('learning_lessons').select('slug,title,display_order').eq('course_id',beginner.id).order('display_order');
+     const lessons=[{slug:'nail-anatomy',title:'Nail Anatomy & Terminology',display_order:1},{slug:'nail-hygiene',title:'Nail Hygiene, Sanitation & Disinfection',display_order:2},{slug:'nail-tools-equipment',title:'Nail Tools, Equipment & Products',display_order:3},{slug:'natural-nail-preparation',title:'Natural Nail Preparation',display_order:4}];
      const enrolled=enrollmentRows.some(e=>e.course_id===beginner.id);
      const routes={'nail-anatomy':'lesson-01-full.html','nail-hygiene':'lesson-02-full.html','nail-tools-equipment':'lesson-03-full.html','natural-nail-preparation':'lesson-04-full.html'};
      $('beginnerLessons').innerHTML=(lessons||[]).map(l=>{
