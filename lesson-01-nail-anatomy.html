@@ -31,7 +31,7 @@ footer{text-align:center;padding:22px;font:11px Arial;color:var(--muted)}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
-<body>
+<body><div id="accessGate" style="position:fixed;inset:0;z-index:9999;background:#fffaf8;display:grid;place-items:center;padding:24px;text-align:center"><div style="max-width:480px;background:#fff;border:1px solid #eadde0;border-radius:20px;padding:28px"><div style="color:#b89a62;font:11px Arial;letter-spacing:.15em">NAILEDITBY_GEL LEARN</div><h2 style="color:#754c5a;font-weight:400">Checking your lesson access…</h2><p style="color:#786a70">Please wait while we verify your student account.</p></div></div><div id="lessonApp" style="visibility:hidden">
 <div class="top">NAILEDITBY_GEL LEARN · LEARN. PRACTICE. PERFECT.</div>
 <div class="wrap">
 <header class="head"><a class="brand" href="index.html" style="text-decoration:none"><strong>Naileditby_gel</strong><small>LEARN</small></a><a href="index.html">← Back to learning hub</a></header>
@@ -134,4 +134,6 @@ document.addEventListener('keydown', event => {
 });
 
 show(0);
+</script></div><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.0/dist/umd/supabase.min.js"></script><script>
+(async()=>{const sb=window.supabase.createClient("https://vlocuitjamseqpzqohgs.supabase.co","sb_publishable_bodb7BhOwkONRc5gy41ZLQ_pYOKCfCa");const gate=document.getElementById("accessGate");const {data:{session}}=await sb.auth.getSession();if(!session){location.replace("account.html?next=lesson-01-nail-anatomy.html%26course=beginner");return;}const {data:course,error:ce}=await sb.from("learning_courses").select("id").eq("slug","beginner").maybeSingle();if(ce||!course){gate.innerHTML="<div><h2>Unable to verify this learning path</h2><p>Please return to your student account.</p><a href=\"account.html\">Student account</a></div>";return;}const {data:enrollment,error}=await sb.from("learning_enrollments").select("id").eq("user_id",session.user.id).eq("course_id",course.id).maybeSingle();if(error){gate.innerHTML="<div><h2>We couldn’t verify your enrollment</h2><p>Please sign in again or contact us for help.</p><a href=\"account.html\">Student account</a></div>";return;}if(!enrollment){location.replace("purchase.html?course=beginner");return;}document.getElementById("lessonApp").style.visibility="visible";gate.remove();})();
 </script></body></html>
