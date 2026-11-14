@@ -204,10 +204,10 @@ footer{text-align:center;padding:24px;font:11px Arial;color:var(--muted)}
 
    const beginner=courseRows.find(c=>c.slug==='beginner');
    if(beginner){
-     const lessons=[{slug:'nail-anatomy',title:'Nail Anatomy & Terminology',display_order:1},{slug:'nail-hygiene',title:'Nail Hygiene, Sanitation & Disinfection',display_order:2},{slug:'nail-tools-equipment',title:'Nail Tools, Equipment & Products',display_order:3},{slug:'natural-nail-preparation',title:'Natural Nail Preparation',display_order:4}];
+     const lessons=[{slug:'nail-anatomy',title:'Nail Anatomy & Terminology',display_order:1},{slug:'nail-hygiene',title:'Nail Hygiene, Sanitation & Disinfection',display_order:2},{slug:'nail-tools-equipment',title:'Nail Tools, Equipment & Products',display_order:3},{slug:'natural-nail-preparation',title:'Natural Nail Preparation',display_order:4},{slug:'understanding-gel-products-curing',title:'Understanding Gel Products & Curing',display_order:5}];
      const enrolled=enrollmentRows.some(e=>e.course_id===beginner.id);
      const completedSlugs=new Set(progressRows.filter(x=>x.status==='completed').map(x=>x.lesson?.slug));
-     const routes={'nail-anatomy':'lesson-01-full.html','nail-hygiene':'lesson-02-full.html','nail-tools-equipment':'lesson-03-full.html','natural-nail-preparation':'lesson-04-full.html'};
+     const routes={'nail-anatomy':'lesson-01-full.html','nail-hygiene':'lesson-02-full.html','nail-tools-equipment':'lesson-03-full.html','natural-nail-preparation':'lesson-04-full.html','understanding-gel-products-curing':'lesson-05-full.html'};
      $('beginnerLessons').innerHTML=(lessons||[]).map(l=>{
        const route=routes[l.slug];
        const link=enrolled&&route?route:(l.display_order===1?'preview-lesson-01.html':'purchase.html?course=beginner');
