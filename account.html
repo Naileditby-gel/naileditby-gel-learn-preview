@@ -206,12 +206,14 @@ footer{text-align:center;padding:24px;font:11px Arial;color:var(--muted)}
    if(beginner){
      const lessons=[{slug:'nail-anatomy',title:'Nail Anatomy & Terminology',display_order:1},{slug:'nail-hygiene',title:'Nail Hygiene, Sanitation & Disinfection',display_order:2},{slug:'nail-tools-equipment',title:'Nail Tools, Equipment & Products',display_order:3},{slug:'natural-nail-preparation',title:'Natural Nail Preparation',display_order:4}];
      const enrolled=enrollmentRows.some(e=>e.course_id===beginner.id);
+     const completedSlugs=new Set(progressRows.filter(x=>x.status==='completed').map(x=>x.lesson?.slug));
      const routes={'nail-anatomy':'lesson-01-full.html','nail-hygiene':'lesson-02-full.html','nail-tools-equipment':'lesson-03-full.html','natural-nail-preparation':'lesson-04-full.html'};
      $('beginnerLessons').innerHTML=(lessons||[]).map(l=>{
        const route=routes[l.slug];
        const link=enrolled&&route?route:(l.display_order===1?'preview-lesson-01.html':'purchase.html?course=beginner');
        const label=enrolled?'Open lesson →':(l.display_order===1?'Free preview →':'Locked · Enroll to unlock');
-       return '<article class="course"><span class="pill">LESSON '+l.display_order+'</span><h3>'+escapeHtml(l.title)+'</h3><p class="muted">'+(enrolled?'Included in your Beginner lifetime access.':(l.display_order===1?'Try the free preview.':'Available after Beginner enrollment approval.'))+'</p><a class="btn '+(enrolled?'':'secondary')+'" href="'+link+'">'+label+'</a></article>';
+       const completed=completedSlugs.has(l.slug);
+       return '<article class="course"><span class="pill">LESSON '+l.display_order+'</span> '+(completed?'<span class="pill" style="background:#f8edf0">✓ COMPLETED</span>':'')+'<h3>'+escapeHtml(l.title)+'</h3><p class="muted">'+(enrolled?'Included in your Beginner lifetime access.':(l.display_order===1?'Try the free preview.':'Available after Beginner enrollment approval.'))+'</p><a class="btn '+(enrolled?'':'secondary')+'" href="'+link+'">'+label+'</a></article>';
      }).join('')||'<p class="muted">Lessons are being prepared.</p>';
    }
  }
