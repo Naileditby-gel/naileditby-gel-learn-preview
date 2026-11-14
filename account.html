@@ -70,7 +70,7 @@ footer{text-align:center;padding:24px;font:11px Arial;color:var(--muted)}
 <section id="dashboardView" class="hidden">
 <div class="panel"><div class="dashboard-head"><div><div class="eyebrow">STUDENT DASHBOARD</div><h2 id="welcomeName">Welcome!</h2><p id="studentEmail" class="muted"></p></div><div><a id="ownerReviewLink" class="btn secondary hidden" href="admin-dashboard.html">♡ Owner dashboard</a> <button id="signoutButton" class="secondary">Sign out</button></div></div>
 <div class="stats"><div class="stat"><b id="enrolledCount">0</b><span class="muted">Learning paths</span></div><div class="stat"><b id="completedCount">0</b><span class="muted">Lessons completed</span></div><div class="stat"><b id="pendingCount">0</b><span class="muted">Pending payments</span></div></div>
-<div class="tabs" role="tablist"><button class="active" data-tab="courses">My learning paths</button><button data-tab="payments">Payment history</button><button data-tab="profile">My profile</button></div>
+<div class="tabs" role="tablist"><button class="active" data-tab="courses" onclick="showStudentTab(&quot;courses&quot;)">My learning paths</button><button data-tab="payments" onclick="showStudentTab(&quot;payments&quot;)">Payment history</button><button data-tab="profile" onclick="showStudentTab(&quot;profile&quot;)">My profile</button></div>
 <div id="tab-courses"><section class="panel"><div class="section-launch"><div><div class="eyebrow">COURSE CATALOGUE</div><h2>Explore learning paths</h2><p class="muted">Choose a learning path that matches your goals. Lifetime access begins after payment approval.</p></div><a class="btn" href="purchase.html">♡ Order a learning path</a></div></section><section class="panel" style="margin-top:24px"><div class="section-launch"><div><div class="eyebrow">YOUR LEARNING LIBRARY</div><h2>Beginner lessons</h2><p class="muted">Open your lesson library to continue learning.</p></div><a class="btn" href="lesson-library.html">Click here to open all lessons →</a></div></section><section class="panel" style="margin-top:24px"><div class="section-launch"><div><div class="eyebrow">YOUR ACHIEVEMENTS</div><h2>Your lesson progress</h2><p class="muted">See your completed lessons and certificate information.</p></div><a class="btn secondary" href="progress-details.html">View Details →</a></div></section></div>
 <div id="tab-payments" class="hidden"><h2>Payment history & notifications</h2><p class="muted">Your payment review updates appear here. Please check this page for the latest status while email notifications are being prepared.</p><div id="paymentHistory"><p class="muted">No payment records yet.</p></div></div>
 <div id="tab-profile" class="hidden"><h2>My profile</h2><form id="profileForm"><div class="field"><label for="profileName">Full name</label><input id="profileName" required maxlength="100"></div><div class="field"><label for="profilePhone">Phone number (optional)</label><input id="profilePhone" type="tel" maxlength="30"></div><button type="submit">Save profile</button></form><div id="profileMessage" class="message" role="status"></div><p class="muted" style="margin-top:22px">Want to book a nail appointment or view our services? <a href="https://naileditby-gel.com/">Visit the Naileditby_gel main website</a>.</p></div>
@@ -130,10 +130,27 @@ footer{text-align:center;padding:24px;font:11px Arial;color:var(--muted)}
    showMessage('profileMessage',error?'Unable to save profile: '+error.message:'Your profile has been saved.');
  });
  $('openBeginnerLessons').addEventListener('click',()=>{$('beginnerLessonView').classList.remove('hidden');$('openBeginnerLessons').classList.add('hidden');$('beginnerLessonView').scrollIntoView({behavior:'smooth',block:'start'});}); $('backToLearningHub').addEventListener('click',()=>{$('beginnerLessonView').classList.add('hidden');$('openBeginnerLessons').classList.remove('hidden');$('lessonLibrary').scrollIntoView({behavior:'smooth',block:'start'});});
- document.querySelectorAll('[data-tab]').forEach(button=>button.addEventListener('click',()=>{
-   document.querySelectorAll('[data-tab]').forEach(b=>b.classList.toggle('active',b===button));
-   ['courses','payments','profile'].forEach(tab=>$('tab-'+tab).classList.toggle('hidden',tab!==button.dataset.tab));
- }));
+ function showStudentTab(tab){
+   if(!['courses','payments','profile'].includes(tab))return;
+   document.querySelectorAll('[data-tab]').forEach(b=>{
+     const active=b.dataset.tab===tab;
+     b.classList.toggle('active',active);
+     b.setAttribute('aria-selected',String(active));
+   });
+   ['courses','payments','profile'].forEach(name=>{
+     const panel=$('tab-'+name);
+     if(panel)panel.classList.toggle('hidden',name!==tab);
+   });
+   history.replaceState(null,'',location.pathname+'#'+tab);
+ }
+ window.showStudentTab=showStudentTab;
+ document.querySelectorAll('[data-tab]').forEach(button=>{
+   button.type='button';
+   button.setAttribute('role','tab');
+   button.addEventListener('click',event=>{event.preventDefault();showStudentTab(button.dataset.tab);});
+ });
+ const requestedTab=location.hash.slice(1);
+ if(['courses','payments','profile'].includes(requestedTab))showStudentTab(requestedTab);
  function showAuth(){authView.classList.remove('hidden');dashboardView.classList.add('hidden');}
  let lessonRedirectInProgress=false;
  async function continueToRequestedLesson(){
