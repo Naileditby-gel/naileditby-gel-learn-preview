@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#754c5a">
+<title>Completed Lesson Details | Naileditby_gel Learn</title>
+<style>
+:root{--rose:#754c5a;--pink:#f8edf0;--gold:#b89a62;--ink:#493940;--muted:#786a70;--paper:#fffaf8;--line:#eadde0}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.65 Georgia}
+.wrap{width:min(900px,calc(100% - 32px));margin:auto}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:22px 0}
+a{color:var(--rose)}h1,h2{color:var(--rose);font-weight:400;line-height:1.2}
+h1{font-size:clamp(34px,5vw,48px);margin:10px 0}h2{font-size:28px}
+.eyebrow{font:11px Arial;letter-spacing:.16em;color:var(--gold)}
+.muted{color:var(--muted);font-size:14px}
+.panel{background:#fff;border:1px solid var(--line);border-radius:20px;padding:clamp(24px,5vw,42px);margin:22px 0;box-shadow:0 12px 35px #754c5a0b}
+.pill{display:inline-block;border:1px solid var(--line);border-radius:18px;padding:5px 11px;font:10px Arial;color:var(--rose);letter-spacing:.08em}
+.btn{display:inline-block;border:0;border-radius:26px;padding:12px 20px;background:var(--rose);color:#fff;text-decoration:none;font:13px Arial}
+.secondary{background:var(--pink);color:var(--rose);border:1px solid #e5cfd6}
+.detail-row{padding:16px 0;border-bottom:1px solid var(--line)}.detail-row:last-child{border-bottom:0}
+.detail-label{display:block;color:var(--gold);font:11px Arial;letter-spacing:.12em;text-transform:uppercase;margin-bottom:5px}
+.notice{background:var(--pink);border-radius:14px;padding:16px;color:var(--rose);margin:20px 0}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
+footer{text-align:center;padding:30px;color:var(--muted);font:11px Arial}
+@media(max-width:600px){header{align-items:flex-start}header a:last-child{text-align:right}}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.0/dist/umd/supabase.min.js"></script>
+</head>
+<body>
+<div class="wrap">
+<header><a href="account.html"><b>Naileditby_gel Learn</b></a><a href="progress-details.html">← Back to lesson progress</a></header>
+<main>
+<div class="eyebrow">YOUR ACHIEVEMENTS</div>
+<h1>Completed lesson details</h1>
+<p class="muted">A closer look at a lesson you have successfully completed.</p>
+<section class="panel" id="detailPanel"><p class="muted">Loading your lesson details…</p></section>
+<div class="actions"><a class="btn secondary" href="progress-details.html">← Return to lesson progress</a><a class="btn" href="lesson-library.html">Open lesson library →</a></div>
+</main>
+</div>
+<footer>Naileditby_gel Learn · Learn. Practice. Perfect.</footer>
+<script>
+(()=> {
+ const sb=window.supabase.createClient('https://vlocuitjamseqpzqohgs.supabase.co','sb_publishable_bodb7BhOwkONRc5gy41ZLQ_pYOKCfCa');
+ const panel=document.getElementById('detailPanel');
+ const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ async function init(){
+   const slug=new URLSearchParams(location.search).get('lesson');
+   if(!slug){panel.innerHTML='<p class="muted">No lesson was selected. Return to your lesson progress page and choose View details.</p>';return;}
+   const {data:{session}}=await sb.auth.getSession();
+   if(!session){panel.innerHTML='<p>Please <a href="account.html">sign in</a> to view your completed lesson details.</p>';return;}
+   const {data,error}=await sb.from('learning_lesson_progress')
+     .select('id,status,progress_percent,updated_at,lesson:learning_lessons(title,slug,course:learning_courses(title))')
+     .eq('user_id',session.user.id).eq('status','completed').eq('lesson.slug',slug).maybeSingle();
+   if(error||!data||!data.lesson){panel.innerHTML='<div class="notice"><b>Completed lesson not found.</b><p class="muted">This lesson may not be marked as completed yet. Return to your progress page to see your latest records.</p></div>';return;}
+   const completedDate=new Date(data.updated_at);
+   panel.innerHTML='<span class="pill">✓ COMPLETED</span><h2>'+esc(data.lesson.title||'Lesson')+'</h2><p class="muted">'+esc(data.lesson.course?.title||'Learning path')+'</p><div class="detail-row"><span class="detail-label">Completion status</span><strong>Successfully completed</strong></div><div class="detail-row"><span class="detail-label">Date completed / last updated</span><strong>'+esc(completedDate.toLocaleString())+'</strong></div><div class="detail-row"><span class="detail-label">Recorded progress</span><strong>'+esc(Number(data.progress_percent??100))+'%</strong></div><div class="notice">Well done! This lesson is recorded in your Naileditby_gel Learn achievements.</div>';
+ }
+ init();
+})();
+</script>
+</body></html>
