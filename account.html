@@ -129,7 +129,7 @@ footer{text-align:center;padding:24px;font:11px Arial;color:var(--muted)}
    const {error}=await client.from('learning_profiles').upsert({user_id:currentUser.id,full_name:$('profileName').value.trim(),phone:$('profilePhone').value.trim()||null});
    showMessage('profileMessage',error?'Unable to save profile: '+error.message:'Your profile has been saved.');
  });
- $('openBeginnerLessons').addEventListener('click',()=>{$('beginnerLessonView').classList.remove('hidden');$('openBeginnerLessons').classList.add('hidden');$('beginnerLessonView').scrollIntoView({behavior:'smooth',block:'start'});}); $('backToLearningHub').addEventListener('click',()=>{$('beginnerLessonView').classList.add('hidden');$('openBeginnerLessons').classList.remove('hidden');$('lessonLibrary').scrollIntoView({behavior:'smooth',block:'start'});});
+ // The lesson library now lives on its own page; no legacy inline-view handlers are needed.
  function showStudentTab(tab){
    if(!['courses','payments','profile'].includes(tab))return;
    document.querySelectorAll('[data-tab]').forEach(b=>{
