@@ -164,7 +164,8 @@ table{width:100%;border-collapse:collapse;margin-top:14px;font-size:14px}th,td{t
    });
    q.querySelector('.feedback').textContent=(correct?'Correct. ':'Not quite. ')+q.dataset.explain;
   });
-  scoreText.textContent='Final score: '+score+' / 5 · '+(score===5?'Excellent work!':score>=3?'Good effort. Review the explanations.':'Review the lesson and try again.');
+  const percent=Math.round(score/quizzes.length*100);
+  scoreText.textContent='Your score: '+score+' / '+quizzes.length+' ('+percent+'%). '+(percent>=70?'You passed! Continue to complete the lesson.':'Keep practicing. Review the explanations and try again.');
   submit.disabled=true;submit.hidden=true;retry.hidden=false;
  });
  retry.addEventListener('click',()=>{
