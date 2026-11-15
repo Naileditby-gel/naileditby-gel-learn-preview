@@ -41,13 +41,32 @@ table{width:100%;border-collapse:collapse;margin-top:14px;font-size:14px}th,td{t
 }
 .diagram img{display:block;width:100%;height:auto;max-width:100%;border-radius:12px}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+/* Navigation visibility control */
+.top-actions{display:flex;align-items:center;gap:14px}
+.nav-toggle{padding:9px 14px;white-space:nowrap}
+body.nav-collapsed .shell{grid-template-columns:minmax(0,1fr)}
+body.nav-collapsed .rail{display:none!important}
+.top{gap:12px;flex-wrap:wrap}
+.top-actions{margin-left:auto}
+@media(max-width:800px){.top-actions{gap:8px}.nav-toggle{padding:8px 11px;font-size:11px}}
+/* Keep lesson visuals inside the slide card */
+.grid2,.grid3,.compare{min-width:0}
+.grid2>* ,.grid3>*{min-width:0;max-width:100%}
+.photo-card{display:block;margin:0;width:100%;max-width:100%;min-width:0;overflow:hidden;border-radius:16px}
+.photo-card img{display:block;width:100%;max-width:100%;height:auto;max-height:420px;object-fit:cover;border-radius:16px}
+.photo-card figcaption{font:11px Arial;color:var(--muted);text-align:center;margin-top:8px}
+.diagram{min-width:0;max-width:100%;overflow:hidden}
+.diagram svg,.diagram img{display:block;width:100%;max-width:100%;height:auto}
+.completion-slide{min-height:520px;overflow:visible}
+.completion-slide>*{position:relative;z-index:1}
 </style></head>
 <body>
 <div class="shell">
-<aside class="rail"><div class="brand">Naileditby_gel<small>LEARN · PRACTICE · PERFECT</small></div><div class="course">Intermediate learning path</div><h2>Lesson 12<br>Preventing Lifting & Troubleshooting</h2>
+<aside class="rail" id="lessonRail"><div class="brand">Naileditby_gel<small>LEARN · PRACTICE · PERFECT</small></div><div class="course">Intermediate learning path</div><h2>Lesson 12<br>Preventing Lifting & Troubleshooting</h2>
 <ol id="outline"><li class="active unlocked" role="button" tabindex="0" aria-current="step">Welcome</li><li class="locked" aria-disabled="true">Learning outcomes</li><li class="locked" aria-disabled="true">Recognise lifting</li><li class="locked" aria-disabled="true">Natural nail prep</li><li class="locked" aria-disabled="true">Product control</li><li class="locked" aria-disabled="true">Correct curing</li><li class="locked" aria-disabled="true">Possible causes</li><li class="locked" aria-disabled="true">Investigate patterns</li><li class="locked" aria-disabled="true">Safe response</li><li class="locked" aria-disabled="true">Prevention routine</li><li class="locked" aria-disabled="true">Practice activity</li><li class="locked" aria-disabled="true">Knowledge check</li></ol>
 <div class="rail-note">STUDENT PREVIEW<br>Illustrative learning diagrams · Follow the exact instructions for your chosen product system.</div></aside>
-<main class="main"><header class="top"><span>INTERMEDIATE · LESSON 12</span><a href="index.html">← Learning home</a></header>
+<main class="main"><header class="top"><span>INTERMEDIATE · LESSON 12</span><div class="top-actions"><button class="btn secondary nav-toggle" id="toggleNav" type="button" aria-expanded="true" aria-controls="lessonRail">☰ Hide navigation</button><a href="index.html">← Learning home</a></div></header>
 <div class="stage" id="stage">
 <section class="slide active cover"><div class="eyebrow">INTERMEDIATE NAIL EDUCATION · 12</div><div class="cover-mark">N</div><div class="tag">NAILEDITBY_GEL LEARN</div><h1>Preventing Lifting<br><em class="gold">& Troubleshooting</em></h1><p class="lead">Learn to recognise common causes of lifting, identify warning signs early and respond with a careful, system-led approach.</p><div class="title-note"><strong>Learn. Practice. Perfect.</strong><p>Prepare correctly. Apply with control. Investigate before you correct.</p></div></section>
 
@@ -170,6 +189,12 @@ table{width:100%;border-collapse:collapse;margin-top:14px;font-size:14px}th,td{t
   });
   scoreText.textContent='Answer all five questions, then submit your answers.';
   submit.hidden=false;submit.disabled=true;retry.hidden=true;
+ });
+ const toggle=document.getElementById('toggleNav');
+ toggle.addEventListener('click',()=>{
+  const collapsed=document.body.classList.toggle('nav-collapsed');
+  toggle.setAttribute('aria-expanded',String(!collapsed));
+  toggle.textContent=collapsed?'☰ Show navigation':'☰ Hide navigation';
  });
  render();
 })();
