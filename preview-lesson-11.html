@@ -77,7 +77,19 @@ table{width:100%;border-collapse:collapse;margin-top:14px;font-size:14px}th,td{t
 <div class="quiz" data-answer="A" data-explain="A side view helps reveal the profile and transitions that may not be visible from above."><h3>3. Why inspect the enhancement from the side?</h3><div class="answers"><button data-choice="A">A. To assess the profile, apex and transitions.</button><button data-choice="B">B. To check the polish colour only.</button><button data-choice="C">C. To avoid checking the sidewalls.</button></div><p class="feedback" aria-live="polite"></p></div>
 <div class="quiz" data-answer="B" data-explain="Over-filing can remove needed structure and may damage the natural nail."><h3>4. What is a safe approach to refinement?</h3><div class="answers"><button data-choice="A">A. File until the enhancement feels paper-thin.</button><button data-choice="B">B. Follow system guidance, use controlled technique and inspect often.</button><button data-choice="C">C. Use the same pressure and filing time on every nail.</button></div><p class="feedback" aria-live="polite"></p></div>
 <div class="quiz" data-answer="C" data-explain="A compromised structure should be reassessed rather than concealed with colour or top coat."><h3>5. What should you do if you notice a structural defect?</h3><div class="answers"><button data-choice="A">A. Hide it with opaque polish.</button><button data-choice="B">B. Ignore it if the client likes the colour.</button><button data-choice="C">C. Pause and reassess; correct only within your training and product instructions.</button></div><p class="feedback" aria-live="polite"></p></div>
-<button class="btn quiz-submit" id="submitQuiz" type="button" disabled>Submit my answers</button><div class="quiz-result" id="score" aria-live="polite"><p id="scoreText">Answer all five questions, then submit your answers.</p><button class="btn secondary" id="retryQuiz" type="button" hidden>Try again</button><div class="callout">Review every explanation and repeat the practice activity to build confidence.</div></div></section></div>
+<button class="btn quiz-submit" id="submitQuiz" type="button" disabled>Submit my answers</button><div class="quiz-result" id="score" aria-live="polite"><p id="scoreText">Answer all five questions, then submit your answers.</p><button class="btn secondary" id="retryQuiz" type="button" hidden>Try again</button><div class="callout">Review every explanation and repeat the practice activity to build confidence.</div></div></section>
+<section class="slide completion-slide">
+ <div class="eyebrow">LESSON COMPLETE</div>
+ <h1>Excellent progress!</h1>
+ <p class="lead">You have reached the end of this lesson.</p>
+ <div class="grid2" style="margin-top:28px">
+  <div class="panel"><h3>Reflect</h3><p>What is one important idea you will use in your next practice session?</p></div>
+  <div class="panel"><h3>Practise</h3><p>Repeat the activity until you can explain and demonstrate each step confidently.</p></div>
+ </div>
+ <div class="callout" style="margin-top:28px"><strong>Professional standard:</strong> Work carefully, follow product instructions and keep client health and safety at the centre of every service.</div>
+ <a class="btn" href="index.html" style="display:inline-block;text-decoration:none;margin-top:28px">Return to your learning hub →</a>
+</section>
+</div>
 <div class="controls"><button class="btn secondary" id="prev" disabled>← Previous</button><div class="progress" aria-label="Lesson progress"><span id="bar"></span></div><div class="counter" id="counter">01 / 12</div><button class="btn" id="next">Next →</button></div></main></div>
 <script>
 (()=>{
@@ -99,14 +111,14 @@ table{width:100%;border-collapse:collapse;margin-top:14px;font-size:14px}th,td{t
    if(n===current)item.setAttribute('aria-current','step');else item.removeAttribute('aria-current');
   });
   prev.disabled=current===0;
-  next.textContent=current===slides.length-1?'Back to start ↺':'Next →';
+  next.textContent=current===slides.length-1?'Complete lesson':'Next →';
   counter.textContent=(current+1)+' / '+slides.length;
   bar.style.width=((current+1)/slides.length*100)+'%';
   window.scrollTo({top:0,behavior:'smooth'});
  }
  function goNext(){
   if(current<slides.length-1){unlocked=Math.max(unlocked,current+1);current++;render();}
-  else{current=0;render();}
+  else{window.location.href='index.html';}
  }
  prev.addEventListener('click',()=>{if(current>0){current--;render();}});
  next.addEventListener('click',goNext);
