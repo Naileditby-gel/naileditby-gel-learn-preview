@@ -18,6 +18,28 @@ table{width:100%;border-collapse:collapse;margin-top:14px;font-size:14px}th,td{t
 .quiz{border:1px solid var(--line);border-radius:16px;padding:18px;margin:14px 0}.quiz h3{font-size:18px}.answers{display:grid;gap:8px;margin-top:12px}.answers button{background:#fffaf8;border:1px solid var(--line);border-radius:10px;text-align:left;padding:11px 13px;color:var(--ink);cursor:pointer}.answers button:hover,.answers button:focus-visible{border-color:var(--gold);outline:2px solid #b89a6230}.answers button.correct{background:#edf4ed;border-color:#9bb69d}.answers button.incorrect{background:#f9eeee;border-color:#d6a4a4}.feedback{font-size:13px;margin:10px 0 0;min-height:20px;color:var(--muted)}.quiz-score{background:var(--pink);border-radius:12px;padding:15px;margin-top:16px;color:var(--rose)}
 .controls{display:flex;justify-content:space-between;align-items:center;gap:12px;width:min(980px,calc(100% - 36px));margin:0 auto 24px}.control-group{display:flex;gap:9px}.btn{border:0;border-radius:24px;padding:12px 20px;background:var(--rose);color:white;font:12px Arial;cursor:pointer}.btn.secondary{background:#f2e4e8;color:var(--rose);border:1px solid #e5d3d9}.btn:disabled{opacity:.4;cursor:not-allowed}.progress{height:5px;background:#eadde0;border-radius:10px;overflow:hidden;flex:1;max-width:260px}.progress span{display:block;height:100%;width:8.3%;background:var(--gold);transition:width .2s}.counter{font:11px Arial;color:var(--muted);min-width:58px;text-align:right}
 @media(max-width:800px){.shell{display:block}.rail{padding:13px 18px;display:flex;flex-direction:row;align-items:center;justify-content:space-between}.rail .course,.rail h2,.rail ol,.rail-note{display:none}.brand{font-size:16px}.brand small{display:inline;margin-left:8px}.stage{margin-top:16px}.slide{min-height:0;padding:25px 20px}.grid2{grid-template-columns:1fr}.grid3,.compare{grid-template-columns:1fr}.diagram{min-height:160px}.steps{grid-template-columns:1fr}.top{padding:12px 18px}.controls{margin-bottom:18px}}
+/* Small-phone refinements */
+@media(max-width:520px){
+ body{font-size:15px}
+ .stage{width:calc(100% - 20px);margin:12px auto 16px}
+ .slide{padding:22px 16px;border-radius:17px}
+ .top{gap:10px;padding:11px 12px}
+ .top span{font-size:9px;letter-spacing:.08em}
+ .top a{font-size:11px;white-space:nowrap}
+ .controls{width:calc(100% - 20px);gap:7px;flex-wrap:nowrap}
+ .btn{padding:10px 13px;font-size:11px;white-space:nowrap}
+ .progress{max-width:76px;min-width:28px}
+ .counter{font-size:10px;min-width:42px}
+ .cover-mark{font-size:58px;margin-top:24px}
+ .lead{font-size:16px}
+ h2{font-size:29px}
+ .panel{padding:15px}
+ th,td{padding:8px 5px;font-size:12px}
+ table{font-size:12px}
+ .quiz{padding:13px}
+ .answers button{font-size:13px;padding:10px}
+}
+.diagram img{display:block;width:100%;height:auto;max-width:100%;border-radius:12px}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 </style></head>
 <body>
