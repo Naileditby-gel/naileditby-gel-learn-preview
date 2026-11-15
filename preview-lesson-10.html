@@ -93,5 +93,11 @@ function renderQuiz(){quiz.innerHTML='';questions.forEach((q,i)=>{const card=doc
 submit.addEventListener('click',()=>{if(chosen.some(v=>v===null)||reviewed)return;reviewed=true;renderQuiz();const score=chosen.reduce((n,v,i)=>n+(v===questions[i].c?1:0),0);const percent=Math.round(score/questions.length*100);result.className='quiz-score';result.textContent='Your score: '+score+' / '+questions.length+' ('+percent+'%). '+(percent>=70?'You passed! Continue to complete the lesson.':'Keep practicing. Review the explanations and try again.');retry.hidden=false;submit.hidden=true;result.scrollIntoView({behavior:'smooth',block:'center'})});
 retry.addEventListener('click',()=>{chosen=Array(questions.length).fill(null);reviewed=false;result.textContent='Answer all five questions to unlock the submit button.';result.className='';retry.hidden=true;submit.hidden=false;renderQuiz()});
 renderQuiz();show(0);
+const toggle=document.getElementById('toggleNav');
+toggle.addEventListener('click',()=>{
+ const collapsed=document.body.classList.toggle('nav-collapsed');
+ toggle.setAttribute('aria-expanded',String(!collapsed));
+ toggle.textContent=collapsed?'☰ Show navigation':'☰ Hide navigation';
+});
 </script>
 </body></html>
