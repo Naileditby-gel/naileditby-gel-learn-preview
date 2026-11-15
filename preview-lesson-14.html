@@ -48,7 +48,7 @@ table{width:100%;border-collapse:collapse;margin-top:14px;font-size:14px}th,td{t
 <ol id="outline"><li class="active unlocked" role="button" tabindex="0" aria-current="step">Welcome</li><li class="locked" aria-disabled="true">Learning outcomes</li><li class="locked" aria-disabled="true">Plan the application</li><li class="locked" aria-disabled="true">Product control</li><li class="locked" aria-disabled="true">Build the structure</li><li class="locked" aria-disabled="true">Refinement</li><li class="locked" aria-disabled="true">Application in practice</li><li class="locked" aria-disabled="true">Finishing</li><li class="locked" aria-disabled="true">Quality control</li><li class="locked" aria-disabled="true">Troubleshoot & aftercare</li><li class="locked" aria-disabled="true">Practice activity</li><li class="locked" aria-disabled="true">Knowledge check</li></ol>
 <div class="rail-note">STUDENT PREVIEW<br>Illustrative learning diagrams · Follow the exact instructions for your chosen product system.</div></aside>
 <main class="main"><header class="top"><span>INTERMEDIATE · LESSON 14</span><a href="index.html">← Learning home</a></header>
-<div class="stage">
+<div class="stage" id="stage">
 <section class="slide active cover"><div class="eyebrow">INTERMEDIATE NAIL EDUCATION · 14</div><div class="cover-mark">N</div><div class="tag">NAILEDITBY_GEL LEARN</div><h1>Advanced Application<br><em class="gold">& Finishing</em></h1><p class="lead">Develop a deliberate approach to product control, refinement and a polished final result while following the requirements of the chosen product system.</p><div class="title-note"><strong>Learn. Practice. Perfect.</strong><p>Control the application. Refine with purpose. Inspect every detail.</p></div></section>
 
 <section class="slide"><div class="eyebrow">01 · YOUR LEARNING GOALS</div><h2>By the end of this lesson…</h2><div class="rule"></div><div class="grid2"><div><ul class="list"><li>Plan product placement for a consistent, balanced enhancement.</li><li>Use controlled application to reduce flooding, excess bulk and uneven surfaces.</li><li>Refine shape and surface without compromising the natural nail.</li><li>Recognise finish defects and decide how to correct them safely.</li><li>Complete a systematic final inspection and client aftercare explanation.</li></ul></div><div class="diagram"><svg viewBox="0 0 340 230" role="img" aria-label="Illustration of a balanced finished nail profile"><path d="M25 145 Q80 142 125 105 Q180 66 235 95 Q270 110 315 110 L315 160 L25 160Z" fill="#efcbd5" stroke="#9b687a" stroke-width="2"/><path d="M25 145 Q80 142 125 105 Q180 66 235 95 Q270 110 315 110" fill="none" stroke="#b89a62" stroke-width="3"/><path d="M180 70L180 28" stroke="#754c5a" stroke-dasharray="4 4"/><text x="180" y="20" text-anchor="middle" fill="#754c5a" font-size="12">Balanced apex</text><text x="170" y="195" text-anchor="middle" fill="#786a70" font-size="11">Conceptual profile · follow system guidance</text></svg></div></div><div class="callout">Advanced work is not about adding more product. It is about using the right amount, in the right place, with a repeatable process.</div></section>
@@ -79,4 +79,88 @@ table{width:100%;border-collapse:collapse;margin-top:14px;font-size:14px}th,td{t
 <div class="quiz" data-answer="C" data-explain="Inspect shape, structure, surface, skin clearance and curing requirements before the client leaves."><h3>5. What belongs in a final quality check?</h3><div class="answers"><button data-choice="A">A. Only the colour and shine.</button><button data-choice="B">B. Only the client's preferred length.</button><button data-choice="C">C. Shape, structure, surface, skin clearance and system requirements.</button></div><p class="feedback" aria-live="polite"></p></div>
 <button class="btn quiz-submit" id="submitQuiz" type="button" disabled>Submit my answers</button><div class="quiz-result" id="score" aria-live="polite"><p id="scoreText">Answer all five questions, then submit your answers.</p><button class="btn secondary" id="retryQuiz" type="button" hidden>Try again</button><div class="callout">Review every explanation and repeat the practice activity to build confidence.</div></div></section></div>
 <div class="controls"><button class="btn secondary" id="prev" disabled>← Previous</button><div class="progress" aria-label="Lesson progress"><span id="bar"></span></div><div class="counter" id="counter">01 / 12</div><button class="btn" id="next">Next →</button></div></main></div>
+<script>
+(()=>{
+ const slides=[...document.querySelectorAll('.slide')],items=[...document.querySelectorAll('#outline li')];
+ const prev=document.getElementById('prev'),next=document.getElementById('next');
+ const counter=document.getElementById('counter'),bar=document.getElementById('bar');
+ const quizzes=[...document.querySelectorAll('.quiz')];
+ const submit=document.getElementById('submitQuiz'),scoreText=document.getElementById('scoreText'),retry=document.getElementById('retryQuiz');
+ let current=0,unlocked=0,submitted=false;
+ function render(){
+  slides.forEach((s,n)=>s.classList.toggle('active',n===current));
+  items.forEach((item,n)=>{
+   const canOpen=n<=unlocked;
+   item.classList.toggle('active',n===current);
+   item.classList.toggle('unlocked',canOpen);
+   item.classList.toggle('locked',!canOpen);
+   if(canOpen){item.setAttribute('role','button');item.setAttribute('tabindex','0');item.removeAttribute('aria-disabled');}
+   else{item.removeAttribute('role');item.removeAttribute('tabindex');item.setAttribute('aria-disabled','true');}
+   if(n===current)item.setAttribute('aria-current','step');else item.removeAttribute('aria-current');
+  });
+  prev.disabled=current===0;
+  next.textContent=current===slides.length-1?'Back to start ↺':'Next →';
+  counter.textContent=(current+1)+' / '+slides.length;
+  bar.style.width=((current+1)/slides.length*100)+'%';
+  window.scrollTo({top:0,behavior:'smooth'});
+ }
+ function goNext(){
+  if(current<slides.length-1){unlocked=Math.max(unlocked,current+1);current++;render();}
+  else{current=0;render();}
+ }
+ prev.addEventListener('click',()=>{if(current>0){current--;render();}});
+ next.addEventListener('click',goNext);
+ items.forEach((item,i)=>{
+  const open=()=>{if(i<=unlocked){current=i;render();}};
+  item.addEventListener('click',open);
+  item.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&i<=unlocked){e.preventDefault();open();}});
+ });
+ document.addEventListener('keydown',e=>{
+  if(e.target.closest('button')||e.target.closest('[role=button]'))return;
+  if(e.key==='ArrowRight'){e.preventDefault();goNext();}
+  if(e.key==='ArrowLeft'&&current>0){e.preventDefault();current--;render();}
+ });
+ quizzes.forEach(q=>{
+  q.querySelectorAll('button[data-choice]').forEach(b=>b.addEventListener('click',()=>{
+   if(submitted)return;
+   q.querySelectorAll('button[data-choice]').forEach(x=>{x.classList.remove('selected');x.setAttribute('aria-pressed','false');});
+   b.classList.add('selected');b.setAttribute('aria-pressed','true');q.dataset.selected=b.dataset.choice;
+   const count=quizzes.filter(x=>x.dataset.selected).length;
+   q.querySelector('.feedback').textContent=(b.dataset.choice===q.dataset.answer?'Correct! ':'Not quite. ')+q.dataset.explain;
+   q.classList.add('reviewed');
+   scoreText.textContent=count<quizzes.length?'Answered '+count+' of 5. Continue answering.':'All five answered. Submit your answers.';
+   submit.disabled=count!==quizzes.length;
+  }));
+ });
+ submit.addEventListener('click',()=>{
+  if(submitted||quizzes.some(q=>!q.dataset.selected))return;
+  submitted=true;let score=0;
+  quizzes.forEach(q=>{
+   const chosen=q.dataset.selected,correct=chosen===q.dataset.answer;
+   if(correct)score++;
+   q.classList.add('reviewed');
+   q.querySelectorAll('button[data-choice]').forEach(b=>{
+    b.disabled=true;
+    if(b.dataset.choice===q.dataset.answer)b.classList.add('correct');
+    if(b.dataset.choice===chosen&&!correct)b.classList.add('incorrect');
+   });
+   q.querySelector('.feedback').textContent=(correct?'Correct. ':'Not quite. ')+q.dataset.explain;
+  });
+  const percent=Math.round(score/quizzes.length*100);
+  scoreText.textContent='Your score: '+score+' / '+quizzes.length+' ('+percent+'%). '+(percent>=70?'You passed! Continue to complete the lesson.':'Keep practicing. Review the explanations and try again.');
+  submit.disabled=true;submit.hidden=true;retry.hidden=false;
+ });
+ retry.addEventListener('click',()=>{
+  submitted=false;
+  quizzes.forEach(q=>{
+   delete q.dataset.selected;q.classList.remove('reviewed');
+   q.querySelectorAll('button[data-choice]').forEach(b=>{b.disabled=false;b.classList.remove('correct','incorrect','selected');b.setAttribute('aria-pressed','false');});
+   q.querySelector('.feedback').textContent='';
+  });
+  scoreText.textContent='Answer all five questions, then submit your answers.';
+  submit.hidden=false;submit.disabled=true;retry.hidden=true;
+ });
+ render();
+})();
+</script>
 </body></html>
