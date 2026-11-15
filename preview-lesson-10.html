@@ -134,7 +134,7 @@ table{width:100%;border-collapse:collapse;margin-top:14px;font-size:14px}th,td{t
   reviewed=true;renderQuiz();
   const score=chosen.reduce((n,v,i)=>n+(v===questions[i].c?1:0),0),percent=Math.round(score/questions.length*100);
   result.hidden=false;
-  scoreMessage.textContent='Your score: '+score+' / '+questions.length+' ('+percent+'%). '+(percent>=70?'You passed! Continue to complete the lesson.':'Keep practicing. Review the explanations and try again.');
+  scoreMessage.innerHTML='<strong>Your score: '+score+' / '+questions.length+' ('+percent+'%). '+(percent>=70?'You passed! Continue to complete the lesson.':'Keep practicing. Review the explanations and try again.')+'</strong>';
   retry.hidden=false;submit.hidden=true;result.scrollIntoView({behavior:'smooth',block:'center'});
  });
  retry.addEventListener('click',()=>{
