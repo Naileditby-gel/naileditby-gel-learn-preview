@@ -15,7 +15,7 @@ button{font:inherit}.shell{min-height:100vh;display:grid;grid-template-columns:2
 .compare{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.compare .panel{text-align:center}.badge{display:inline-block;border-radius:30px;padding:5px 10px;background:var(--pink);font:10px Arial;letter-spacing:.1em;color:var(--rose)}.badge.warn{background:#f7ece4;color:#8b5b35}.badge.good{background:#edf4ed;color:#4e7052}
 table{width:100%;border-collapse:collapse;margin-top:14px;font-size:14px}th,td{text-align:left;padding:12px;border-bottom:1px solid var(--line)}th{font:10px Arial;letter-spacing:.1em;color:var(--gold);text-transform:uppercase}td{color:var(--muted)}
 .steps{counter-reset:step;display:grid;grid-template-columns:1fr 1fr;gap:12px}.step{counter-increment:step;border:1px solid var(--line);border-radius:14px;padding:15px 15px 15px 52px;position:relative;color:var(--muted);font-size:14px}.step:before{content:counter(step,decimal-leading-zero);position:absolute;left:15px;top:13px;color:var(--gold);font-size:19px}
-.quiz{border:1px solid var(--line);border-radius:16px;padding:18px;margin:14px 0}.quiz h3{font-size:18px}.answers{display:grid;gap:8px;margin-top:12px}.answers button{background:#fffaf8;border:1px solid var(--line);border-radius:10px;text-align:left;padding:11px 13px;color:var(--ink);cursor:pointer}.answers button:hover,.answers button:focus-visible{border-color:var(--gold);outline:2px solid #b89a6230}.answers button.correct{background:#edf4ed;border-color:#9bb69d}.answers button.incorrect{background:#f9eeee;border-color:#d6a4a4}.feedback{font-size:13px;margin:10px 0 0;min-height:20px;color:var(--muted)}.quiz-score{background:var(--pink);border-radius:12px;padding:15px;margin-top:16px;color:var(--rose)}.quiz-submit{margin-top:14px}.quiz-submit:disabled{opacity:.45;cursor:not-allowed}.quiz .answers button.selected{border-color:var(--gold);background:#f7edf0}.quiz .answers button:disabled{cursor:default;opacity:1}.quiz .feedback{display:none}.quiz.reviewed .feedback{display:block}
+.quiz{border:1px solid var(--line);border-radius:16px;padding:18px;margin:14px 0}.quiz h3{font-size:18px}.answers{display:grid;gap:8px;margin-top:12px}.answers button{background:#fffaf8;border:1px solid var(--line);border-radius:10px;text-align:left;padding:11px 13px;color:var(--ink);cursor:pointer}.answers button:hover,.answers button:focus-visible{border-color:var(--gold);outline:2px solid #b89a6230}.answers button.correct{background:#edf4ed;border-color:#9bb69d}.answers button.incorrect{background:#f9eeee;border-color:#d6a4a4}.feedback{font-size:13px;margin:10px 0 0;min-height:20px;color:var(--muted)}.quiz-result{margin-top:14px;color:var(--rose)}.quiz-result p{font-weight:bold;color:var(--rose);margin:12px 0}.quiz-result .callout{margin-top:18px}.quiz-result:empty{display:none}.quiz-submit{margin-top:14px}.quiz-submit:disabled{opacity:.45;cursor:not-allowed}.quiz .answers button.selected{border-color:var(--gold);background:#f7edf0}.quiz .answers button:disabled{cursor:default;opacity:1}.quiz .feedback{display:none}.quiz.reviewed .feedback{display:block}
 .controls{display:flex;justify-content:space-between;align-items:center;gap:12px;width:min(980px,calc(100% - 36px));margin:0 auto 24px}.control-group{display:flex;gap:9px}.btn{border:0;border-radius:24px;padding:12px 20px;background:var(--rose);color:white;font:12px Arial;cursor:pointer}.btn.secondary{background:#f2e4e8;color:var(--rose);border:1px solid #e5d3d9}.btn:disabled{opacity:.4;cursor:not-allowed}.progress{height:5px;background:#eadde0;border-radius:10px;overflow:hidden;flex:1;max-width:260px}.progress span{display:block;height:100%;width:8.3%;background:var(--gold);transition:width .2s}.counter{font:11px Arial;color:var(--muted);min-width:58px;text-align:right}
 @media(max-width:800px){.shell{display:block}.rail{padding:13px 18px;display:flex;flex-direction:row;align-items:center;justify-content:space-between}.rail .course,.rail h2,.rail ol,.rail-note{display:none}.brand{font-size:16px}.brand small{display:inline;margin-left:8px}.stage{margin-top:16px}.slide{min-height:0;padding:25px 20px}.grid2{grid-template-columns:1fr}.grid3,.compare{grid-template-columns:1fr}.diagram{min-height:160px}.steps{grid-template-columns:1fr}.top{padding:12px 18px}.controls{margin-bottom:18px}}
 /* Small-phone refinements */
@@ -94,7 +94,7 @@ table{width:100%;border-collapse:collapse;margin-top:14px;font-size:14px}th,td{t
 <div class="quiz" data-answer="A" data-explain="Pre-sizing helps prevent rushed choices and keeps tips organised."><h3>3. Why should all ten nails be sized before application?</h3><div class="answers"><button data-choice="A">A. To organise the service and check each nail individually.</button><button data-choice="B">B. Because both hands always use identical sizes.</button><button data-choice="C">C. To skip the fit check during application.</button></div><p class="feedback" aria-live="polite"></p></div>
 <div class="quiz" data-answer="B" data-explain="Tailoring must preserve the tip and follow its system instructions."><h3>4. If a tip is slightly wide, what is appropriate?</h3><div class="answers"><button data-choice="A">A. File it aggressively until it is thin.</button><button data-choice="B">B. Tailor it only if the manufacturer permits, then recheck.</button><button data-choice="C">C. Push it down harder.</button></div><p class="feedback" aria-live="polite"></p></div>
 <div class="quiz" data-answer="B" data-explain="Sidewall fit is part of selecting a suitable tip."><h3>5. What is the best response to a tip that leaves a sidewall uncovered?</h3><div class="answers"><button data-choice="A">A. Continue because adhesive will cover it.</button><button data-choice="B">B. Choose a more suitable size or shape and recheck.</button><button data-choice="C">C. Ignore the gap if the colour is opaque.</button></div><p class="feedback" aria-live="polite"></p></div>
-<button class="btn quiz-submit" id="submitQuiz" type="button" disabled>Submit answers</button><div class="quiz-score" id="score" aria-live="polite"><span id="scoreText">Answer all five questions to unlock the submit button.</span> <button class="btn secondary" id="retryQuiz" type="button" hidden>Try again</button></div>
+<button class="btn quiz-submit" id="submitQuiz" type="button" disabled>Submit my answers</button><div class="quiz-result" id="score" aria-live="polite"><p id="scoreText">Answer all five questions, then submit your answers.</p><button class="btn secondary" id="retryQuiz" type="button" hidden>Try again</button><div class="callout">Review every explanation and repeat the practice activity to build confidence.</div></div>
 </section>
 </div>
 <div class="controls"><button class="btn secondary" id="prev" disabled>← Previous</button><div class="progress" aria-label="Lesson progress"><span id="bar"></span></div><span class="counter" id="counter">1 / 12</span><div class="control-group"><button class="btn" id="next">Next →</button></div></div>
@@ -146,7 +146,9 @@ table{width:100%;border-collapse:collapse;margin-top:14px;font-size:14px}th,td{t
    q.querySelectorAll('button[data-choice]').forEach(x=>{x.classList.remove('selected');x.setAttribute('aria-pressed','false');});
    b.classList.add('selected');b.setAttribute('aria-pressed','true');q.dataset.selected=b.dataset.choice;
    const count=quizzes.filter(x=>x.dataset.selected).length;
-   scoreText.textContent=count<quizzes.length?'Answered '+count+' of 5 · Keep going!':'All five answered. Submit when you are ready.';
+   q.querySelector('.feedback').textContent=(b.dataset.choice===q.dataset.answer?'Correct! ':'Not quite. ')+q.dataset.explain;
+   q.classList.add('reviewed');
+   scoreText.textContent=count<quizzes.length?'Answered '+count+' of 5. Continue answering.':'All five answered. Submit your answers.';
    submit.disabled=count!==quizzes.length;
   }));
  });
@@ -164,7 +166,8 @@ table{width:100%;border-collapse:collapse;margin-top:14px;font-size:14px}th,td{t
    });
    q.querySelector('.feedback').textContent=(correct?'Correct. ':'Not quite. ')+q.dataset.explain;
   });
-  scoreText.textContent='Final score: '+score+' / 5 · '+(score===5?'Excellent work!':score>=3?'Good effort. Review the explanations.':'Review the lesson and try again.');
+  const percent=Math.round(score/quizzes.length*100);
+  scoreText.textContent='Your score: '+score+' / '+quizzes.length+' ('+percent+'%). '+(percent>=70?'You passed! Continue to complete the lesson.':'Keep practicing. Review the explanations and try again.');
   submit.disabled=true;submit.hidden=true;retry.hidden=false;
  });
  retry.addEventListener('click',()=>{
@@ -174,7 +177,7 @@ table{width:100%;border-collapse:collapse;margin-top:14px;font-size:14px}th,td{t
    q.querySelectorAll('button[data-choice]').forEach(b=>{b.disabled=false;b.classList.remove('correct','incorrect','selected');b.setAttribute('aria-pressed','false');});
    q.querySelector('.feedback').textContent='';
   });
-  scoreText.textContent='Answer all five questions to unlock the submit button.';
+  scoreText.textContent='Answer all five questions, then submit your answers.';
   submit.hidden=false;submit.disabled=true;retry.hidden=true;
  });
  render();
