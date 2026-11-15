@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#754c5a">
+<title>Lesson 14 — Advanced Application & Finishing | Naileditby_gel Learn</title>
+<style>
+:root{--rose:#754c5a;--pink:#f8edf0;--blush:#f1dfe4;--gold:#b89a62;--ink:#493940;--muted:#786a70;--paper:#fffaf8;--line:#eadde0;--white:#fff}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#f7eff0;color:var(--ink);font:16px Georgia,serif;line-height:1.55}
+button{font:inherit}.shell{min-height:100vh;display:grid;grid-template-columns:260px 1fr}.rail{background:var(--rose);color:#fff;padding:26px 20px;display:flex;flex-direction:column;gap:22px}.brand{font-size:20px;line-height:1.15}.brand small{display:block;color:#e8d5b0;font:10px Arial;letter-spacing:.22em;margin-top:8px}.course{font:10px Arial;letter-spacing:.16em;color:#e8d5b0;text-transform:uppercase}.rail h2{font-size:17px;font-weight:400;margin:0;color:#fff}.rail ol{padding-left:20px;margin:0;display:grid;gap:9px}.rail li{font:12px Arial;color:#eadde0}.rail li.active{color:#fff;font-weight:bold}.rail li[role=button]{cursor:pointer;border-radius:6px;padding:3px 5px;margin-left:-5px}.rail li[role=button]:focus-visible{outline:2px solid var(--gold);outline-offset:3px}.rail li.locked{opacity:.42;cursor:not-allowed}.rail li.unlocked{cursor:pointer}.rail li.unlocked:before{content:"✓ ";color:#e8d5b0}.rail li.active:before{content:"• ";color:#fff}.rail-note{margin-top:auto;color:#eadde0;font:11px Arial;line-height:1.5}
+.main{min-width:0;display:flex;flex-direction:column}.top{display:flex;justify-content:space-between;align-items:center;padding:16px clamp(16px,4vw,48px);border-bottom:1px solid var(--line);background:#fffaf8}.top span{font:11px Arial;letter-spacing:.12em;color:var(--muted)}.top a{color:var(--rose);font:12px Arial;text-decoration:none}.stage{width:min(980px,calc(100% - 36px));margin:30px auto 22px;flex:1}.slide{display:none;background:var(--white);border:1px solid var(--line);border-radius:24px;min-height:590px;padding:clamp(24px,5vw,58px);box-shadow:0 18px 55px #754c5a0d;overflow:hidden}.slide.active{display:block;animation:rise .28s ease-out}@keyframes rise{from{opacity:.5;transform:translateY(8px)}to{opacity:1;transform:none}}
+.eyebrow{font:10px Arial;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}h1,h2,h3{color:var(--rose);font-weight:400;line-height:1.15}h1{font-size:clamp(42px,6vw,68px);margin:18px 0}h2{font-size:clamp(30px,4vw,43px);margin:12px 0 18px}h3{font-size:22px;margin:0 0 9px}p{color:var(--muted);max-width:720px}.lead{font-size:19px;color:#66545d;max-width:650px}.gold{color:var(--gold)}.rule{height:1px;background:var(--gold);width:58px;margin:18px 0 26px}.cover{background:linear-gradient(135deg,#fff 0%,#fff 48%,#f8edf0 100%);position:relative}.cover:after{content:"";position:absolute;right:-70px;bottom:-90px;width:330px;height:330px;border:1px solid #d9c49b;border-radius:50%;box-shadow:0 0 0 24px #b89a620b,0 0 0 48px #b89a6208}.cover-mark{font-size:76px;color:#b77b91;line-height:1;margin-top:38px}.cover .tag{font:10px Arial;letter-spacing:.24em;color:var(--gold);margin-top:12px}.cover .title-note{margin-top:35px;border-left:2px solid var(--gold);padding-left:16px;max-width:450px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:center}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.panel{background:#fffaf8;border:1px solid var(--line);border-radius:17px;padding:19px}.panel p{font-size:14px;margin-bottom:0}.number{font:30px Georgia;color:var(--gold)}.diagram{background:linear-gradient(145deg,#fffaf8,#f7e9ed);border:1px solid var(--line);border-radius:18px;padding:16px;min-height:220px;display:grid;place-items:center}.diagram svg{width:100%;height:auto;max-height:300px}.caption{font:11px Arial;color:var(--muted);text-align:center;margin-top:8px}
+.callout{background:var(--pink);border-left:3px solid var(--gold);padding:14px 17px;border-radius:0 12px 12px 0;color:var(--rose);margin:20px 0}.list{display:grid;gap:10px;padding:0;list-style:none}.list li{padding-left:27px;position:relative;color:var(--muted)}.list li:before{content:"✦";position:absolute;left:0;color:var(--gold)}
+.compare{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.compare .panel{text-align:center}.badge{display:inline-block;border-radius:30px;padding:5px 10px;background:var(--pink);font:10px Arial;letter-spacing:.1em;color:var(--rose)}.badge.warn{background:#f7ece4;color:#8b5b35}.badge.good{background:#edf4ed;color:#4e7052}
+table{width:100%;border-collapse:collapse;margin-top:14px;font-size:14px}th,td{text-align:left;padding:12px;border-bottom:1px solid var(--line)}th{font:10px Arial;letter-spacing:.1em;color:var(--gold);text-transform:uppercase}td{color:var(--muted)}
+.steps{counter-reset:step;display:grid;grid-template-columns:1fr 1fr;gap:12px}.step{counter-increment:step;border:1px solid var(--line);border-radius:14px;padding:15px 15px 15px 52px;position:relative;color:var(--muted);font-size:14px}.step:before{content:counter(step,decimal-leading-zero);position:absolute;left:15px;top:13px;color:var(--gold);font-size:19px}
+.quiz{border:1px solid var(--line);border-radius:16px;padding:18px;margin:14px 0}.quiz h3{font-size:18px}.answers{display:grid;gap:8px;margin-top:12px}.answers button{background:#fffaf8;border:1px solid var(--line);border-radius:10px;text-align:left;padding:11px 13px;color:var(--ink);cursor:pointer}.answers button:hover,.answers button:focus-visible{border-color:var(--gold);outline:2px solid #b89a6230}.answers button.correct{background:#edf4ed;border-color:#9bb69d}.answers button.incorrect{background:#f9eeee;border-color:#d6a4a4}.feedback{font-size:13px;margin:10px 0 0;min-height:20px;color:var(--muted)}.quiz-result{margin-top:14px;color:var(--rose)}.quiz-result p{font-weight:bold;color:var(--rose);margin:12px 0}.quiz-result .callout{margin-top:18px}.quiz-result:empty{display:none}.quiz-submit{margin-top:14px}.quiz-submit:disabled{opacity:.45;cursor:not-allowed}.quiz .answers button.selected{border-color:var(--gold);background:#f7edf0}.quiz .answers button:disabled{cursor:default;opacity:1}.quiz .feedback{display:none}.quiz.reviewed .feedback{display:block}
+.controls{display:flex;justify-content:space-between;align-items:center;gap:12px;width:min(980px,calc(100% - 36px));margin:0 auto 24px}.control-group{display:flex;gap:9px}.btn{border:0;border-radius:24px;padding:12px 20px;background:var(--rose);color:white;font:12px Arial;cursor:pointer}.btn.secondary{background:#f2e4e8;color:var(--rose);border:1px solid #e5d3d9}.btn:disabled{opacity:.4;cursor:not-allowed}.progress{height:5px;background:#eadde0;border-radius:10px;overflow:hidden;flex:1;max-width:260px}.progress span{display:block;height:100%;width:8.3%;background:var(--gold);transition:width .2s}.counter{font:11px Arial;color:var(--muted);min-width:58px;text-align:right}
+@media(max-width:800px){.shell{display:block}.rail{padding:13px 18px;display:flex;flex-direction:row;align-items:center;justify-content:space-between}.rail .course,.rail h2,.rail ol,.rail-note{display:none}.brand{font-size:16px}.brand small{display:inline;margin-left:8px}.stage{margin-top:16px}.slide{min-height:0;padding:25px 20px}.grid2{grid-template-columns:1fr}.grid3,.compare{grid-template-columns:1fr}.diagram{min-height:160px}.steps{grid-template-columns:1fr}.top{padding:12px 18px}.controls{margin-bottom:18px}}
+/* Small-phone refinements */
+@media(max-width:520px){
+ body{font-size:15px}
+ .stage{width:calc(100% - 20px);margin:12px auto 16px}
+ .slide{padding:22px 16px;border-radius:17px}
+ .top{gap:10px;padding:11px 12px}
+ .top span{font-size:9px;letter-spacing:.08em}
+ .top a{font-size:11px;white-space:nowrap}
+ .controls{width:calc(100% - 20px);gap:7px;flex-wrap:nowrap}
+ .btn{padding:10px 13px;font-size:11px;white-space:nowrap}
+ .progress{max-width:76px;min-width:28px}
+ .counter{font-size:10px;min-width:42px}
+ .cover-mark{font-size:58px;margin-top:24px}
+ .lead{font-size:16px}
+ h2{font-size:29px}
+ .panel{padding:15px}
+ th,td{padding:8px 5px;font-size:12px}
+ table{font-size:12px}
+ .quiz{padding:13px}
+ .answers button{font-size:13px;padding:10px}
+}
+.diagram img{display:block;width:100%;height:auto;max-width:100%;border-radius:12px}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+.photo-card{margin:0;padding:10px;background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:0 10px 28px #754c5a12}.photo-card img{display:block;width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;object-position:center;border-radius:12px}.photo-card figcaption{font:11px Arial;color:var(--muted);text-align:center;padding:9px 4px 2px}@media(max-width:800px){.photo-card img{aspect-ratio:16/10;max-height:280px}}
+</style></head>
+<body>
+<div class="shell">
+<aside class="rail"><div class="brand">Naileditby_gel<small>LEARN · PRACTICE · PERFECT</small></div><div class="course">Intermediate learning path</div><h2>Lesson 14<br>Advanced Application & Finishing</h2>
+<ol id="outline"><li class="active unlocked" role="button" tabindex="0" aria-current="step">Welcome</li><li class="locked" aria-disabled="true">Learning outcomes</li><li class="locked" aria-disabled="true">Plan the application</li><li class="locked" aria-disabled="true">Product control</li><li class="locked" aria-disabled="true">Build the structure</li><li class="locked" aria-disabled="true">Refinement</li><li class="locked" aria-disabled="true">Application in practice</li><li class="locked" aria-disabled="true">Finishing</li><li class="locked" aria-disabled="true">Quality control</li><li class="locked" aria-disabled="true">Troubleshoot & aftercare</li><li class="locked" aria-disabled="true">Practice activity</li><li class="locked" aria-disabled="true">Knowledge check</li></ol>
+<div class="rail-note">STUDENT PREVIEW<br>Illustrative learning diagrams · Follow the exact instructions for your chosen product system.</div></aside>
+<main class="main"><header class="top"><span>INTERMEDIATE · LESSON 13</span><a href="index.html">← Learning home</a></header>
+<div class="stage">
+<section class="slide active cover"><div class="eyebrow">INTERMEDIATE NAIL EDUCATION · 14</div><div class="cover-mark">N</div><div class="tag">NAILEDITBY_GEL LEARN</div><h1>Advanced Application<br><em class="gold">& Finishing</em></h1><p class="lead">Develop a deliberate approach to product control, refinement and a polished final result while following the requirements of the chosen product system.</p><div class="title-note"><strong>Learn. Practice. Perfect.</strong><p>Control the application. Refine with purpose. Inspect every detail.</p></div></section>
+
+<section class="slide"><div class="eyebrow">01 · YOUR LEARNING GOALS</div><h2>By the end of this lesson…</h2><div class="rule"></div><div class="grid2"><div><ul class="list"><li>Plan product placement for a consistent, balanced enhancement.</li><li>Use controlled application to reduce flooding, excess bulk and uneven surfaces.</li><li>Refine shape and surface without compromising the natural nail.</li><li>Recognise finish defects and decide how to correct them safely.</li><li>Complete a systematic final inspection and client aftercare explanation.</li></ul></div><div class="diagram"><svg viewBox="0 0 340 230" role="img" aria-label="Illustration of a balanced finished nail profile"><path d="M25 145 Q80 142 125 105 Q180 66 235 95 Q270 110 315 110 L315 160 L25 160Z" fill="#efcbd5" stroke="#9b687a" stroke-width="2"/><path d="M25 145 Q80 142 125 105 Q180 66 235 95 Q270 110 315 110" fill="none" stroke="#b89a62" stroke-width="3"/><path d="M180 70L180 28" stroke="#754c5a" stroke-dasharray="4 4"/><text x="180" y="20" text-anchor="middle" fill="#754c5a" font-size="12">Balanced apex</text><text x="170" y="195" text-anchor="middle" fill="#786a70" font-size="11">Conceptual profile · follow system guidance</text></svg></div></div><div class="callout">Advanced work is not about adding more product. It is about using the right amount, in the right place, with a repeatable process.</div></section>
+
+<section class="slide"><div class="eyebrow">02 · PLAN THE APPLICATION</div><h2>Start with the nail in front of you</h2><p class="lead">A refined finish begins before product touches the nail.</p><div class="grid2"><div><ul class="list"><li>Assess the natural nail, skin and existing product condition.</li><li>Confirm the service, length and shape are suitable for the client.</li><li>Choose compatible products and the manufacturer's approved lamp system.</li><li>Plan structure and product quantity for each nail.</li><li>Keep the work area organised so tools and products remain controlled.</li></ul></div><div class="panel"><span class="badge">PROFESSIONAL CHECKPOINT</span><h3>Pause before you apply</h3><p>Do not proceed over damaged or compromised nails, active skin concerns, or an enhancement that needs safe removal first.</p></div></div></section>
+
+<section class="slide"><div class="eyebrow">03 · PRODUCT CONTROL</div><h2>Use a controlled amount</h2><div class="grid2"><div><ul class="list"><li>Load the brush according to the product's viscosity and instructions.</li><li>Place product deliberately rather than spreading a large amount at once.</li><li>Guide material with light, controlled strokes.</li><li>Keep a safe margin from the skin and sidewalls.</li><li>Check the surface and profile before curing, as directed by the system.</li></ul></div><div class="diagram"><svg viewBox="0 0 340 230" role="img" aria-label="Illustration of controlled gel placement on a nail"><path d="M110 35 Q170 10 230 35 Q250 65 245 165 Q230 205 170 208 Q110 205 95 165 Q90 65 110 35Z" fill="#efcbd5" stroke="#9b687a" stroke-width="2"/><path d="M120 68 Q170 40 220 68 Q230 100 215 148 Q170 175 125 148 Q110 100 120 68Z" fill="#dca8b8" opacity=".75"/><path d="M170 15L170 52" stroke="#b89a62" stroke-width="3"/><path d="M155 44L170 58L185 44" fill="none" stroke="#b89a62" stroke-width="3"/><text x="170" y="225" text-anchor="middle" fill="#786a70" font-size="11">Keep product controlled and off skin</text></svg></div></div></section>
+
+<section class="slide"><div class="eyebrow">04 · BUILD THE STRUCTURE</div><h2>Balance, transitions and proportion</h2><p class="lead">A refined enhancement should look intentional from more than one viewing angle.</p><div class="grid3"><div class="panel"><span class="number">01</span><h3>Side profile</h3><p>Review the arch, apex position and smooth transition.</p></div><div class="panel"><span class="number">02</span><h3>Top view</h3><p>Check symmetry, sidewalls and consistent shape.</p></div><div class="panel"><span class="number">03</span><h3>Free edge</h3><p>Check thickness, alignment and a clean finish.</p></div></div><div class="callout">Structure depends on the service, length, product and manufacturer's guidance. Avoid applying one fixed shape or thickness to every client.</div></section>
+
+<section class="slide"><div class="eyebrow">05 · REFINEMENT</div><h2>File with a clear purpose</h2><ul class="list"><li>Allow the product to cure exactly as specified by the manufacturer before filing.</li><li>Choose an appropriate file or e-file bit and use the correct technique for your training level.</li><li>Refine sidewalls, free edge and surface transitions with controlled pressure.</li><li>Keep checking the nail from top, side and end views.</li><li>Stop before the natural nail is exposed or thinned.</li></ul><div class="callout">Never use filing to hide a structural problem. If the enhancement is compromised, reassess the service and follow safe removal or repair guidance.</div></section>
+
+<section class="slide"><div class="eyebrow">06 · APPLICATION IN PRACTICE</div><h2>Keep the process calm and consistent</h2><div class="grid2"><div><p class="lead">Work one nail at a time when appropriate for the product system, checking placement and surface before moving on.</p><div class="steps"><div class="step"><strong>Prepare</strong><br>Confirm the nail and product are ready.</div><div class="step"><strong>Place</strong><br>Apply a controlled amount.</div><div class="step"><strong>Inspect</strong><br>Check skin clearance and structure.</div><div class="step"><strong>Cure</strong><br>Use the approved lamp and schedule.</div></div></div><figure class="photo-card"><img src="assets/lesson-14-advanced-application.jpg" alt="Close-up of a nail technician applying translucent pink gel with a fine brush" loading="lazy"><figcaption>Application detail · illustrative training photograph</figcaption></figure></div></section>
+
+<section class="slide"><div class="eyebrow">07 · FINISHING</div><h2>Create a clean, even finish</h2><div class="grid2"><div><ul class="list"><li>Remove dust and cleanse only as instructed by the product system.</li><li>Apply the designated finish product evenly, without touching the skin.</li><li>Seal the free edge only when required by the system.</li><li>Cure with the approved lamp and exact manufacturer schedule.</li><li>Complete any final wipe or aftercare step specified by the manufacturer.</li></ul></div><div class="diagram"><svg viewBox="0 0 340 230" role="img" aria-label="Illustration of a smooth glossy nail finish"><path d="M110 25 Q170 5 230 25 Q260 65 245 165 Q230 210 170 212 Q110 210 95 165 Q80 65 110 25Z" fill="#e8bac8" stroke="#9b687a" stroke-width="2"/><path d="M130 50 Q160 34 178 45 Q158 85 150 130" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" opacity=".9"/><path d="M200 58 Q218 70 215 104" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".7"/><text x="170" y="228" text-anchor="middle" fill="#786a70" font-size="11">Even reflection · smooth finish</text></svg></div></div></section>
+
+<section class="slide"><div class="eyebrow">08 · QUALITY CONTROL</div><h2>Inspect before the client leaves</h2><table><thead><tr><th>Check</th><th>Look for</th><th>Action if needed</th></tr></thead><tbody><tr><td>Shape</td><td>Symmetry and consistent outline</td><td>Refine only if safe and appropriate</td></tr><tr><td>Structure</td><td>Balanced profile and suitable thickness</td><td>Reassess; do not disguise weakness</td></tr><tr><td>Surface</td><td>Smooth, even finish without visible defects</td><td>Follow system-approved correction</td></tr><tr><td>Skin clearance</td><td>No product touching skin</td><td>Remove uncured product safely before curing</td></tr><tr><td>Cure</td><td>Correct lamp and full manufacturer schedule</td><td>Never guess or shorten cure time</td></tr></tbody></table></section>
+
+<section class="slide"><div class="eyebrow">09 · TROUBLESHOOT & AFTERCARE</div><h2>Recognise the issue before correcting it</h2><div class="compare"><div class="panel"><span class="badge warn">Uneven surface</span><p>Check product control, brush movement and whether refinement is appropriate.</p></div><div class="panel"><span class="badge warn">Flooded sidewall</span><p>Keep product off skin; remove uncured material safely before curing.</p></div><div class="panel"><span class="badge warn">Weak or bulky shape</span><p>Reassess structure, length and compatibility rather than adding unnecessary bulk.</p></div></div><div class="callout">If product is under-cured, contaminated or incompatible, stop and follow the manufacturer's safety and removal instructions. Show the client the finished nails, explain product-specific aftercare, discourage picking or using nails as tools, and invite them to report discomfort or damage promptly.</div></section>
+
+<section class="slide"><div class="eyebrow">10 · PRACTICE ACTIVITY</div><h2>Complete a finishing audit</h2><p class="lead">Use a practice hand, training tip or supervised model.</p><ol class="list"><li>Plan the structure and product amount for the chosen nail shape and length.</li><li>Demonstrate controlled placement while maintaining skin clearance.</li><li>Inspect the top view, side profile and free edge.</li><li>Identify one possible finish defect and explain a safe correction.</li><li>Complete a final quality checklist and client aftercare explanation.</li></ol><div class="title-note"><strong>Practice goal</strong><p>Build a repeatable process that prioritises control, safety and consistency.</p></div></section>
+
+<section class="slide"><div class="eyebrow">11 · CHECK YOUR UNDERSTANDING</div><h2>Knowledge check</h2><p>Answer all five questions first. Your score and explanations will appear after you submit your completed quiz.</p>
+<div class="quiz" data-answer="B" data-explain="Plan the service, structure, product and compatible system before beginning application."><h3>1. What should guide your application plan?</h3><div class="answers"><button data-choice="A">A. Use the same amount of product for every nail.</button><button data-choice="B">B. Assess the nail, service, structure and product system first.</button><button data-choice="C">C. Start applying before checking the natural nail.</button></div><p class="feedback" aria-live="polite"></p></div>
+<div class="quiz" data-answer="C" data-explain="Controlled product placement helps reduce flooding, excess bulk and uneven surfaces."><h3>2. Why is controlled product placement important?</h3><div class="answers"><button data-choice="A">A. It allows product to touch the skin.</button><button data-choice="B">B. It removes the need to inspect the nail.</button><button data-choice="C">C. It supports a consistent structure and cleaner application.</button></div><p class="feedback" aria-live="polite"></p></div>
+<div class="quiz" data-answer="A" data-explain="Refine with suitable tools and controlled technique, protecting the natural nail and following product guidance."><h3>3. What is a safe approach to refinement?</h3><div class="answers"><button data-choice="A">A. Use controlled filing and keep checking the structure.</button><button data-choice="B">B. File until the natural nail is exposed.</button><button data-choice="C">C. Use filing to hide every structural issue.</button></div><p class="feedback" aria-live="polite"></p></div>
+<div class="quiz" data-answer="B" data-explain="Use the approved lamp and the exact curing schedule specified by the manufacturer."><h3>4. What determines the correct curing process?</h3><div class="answers"><button data-choice="A">A. Any lamp that looks bright enough.</button><button data-choice="B">B. The product manufacturer's approved lamp and schedule.</button><button data-choice="C">C. A shorter time if the surface looks glossy.</button></div><p class="feedback" aria-live="polite"></p></div>
+<div class="quiz" data-answer="C" data-explain="Inspect shape, structure, surface, skin clearance and curing requirements before the client leaves."><h3>5. What belongs in a final quality check?</h3><div class="answers"><button data-choice="A">A. Only the colour and shine.</button><button data-choice="B">B. Only the client's preferred length.</button><button data-choice="C">C. Shape, structure, surface, skin clearance and system requirements.</button></div><p class="feedback" aria-live="polite"></p></div>
+<button class="btn quiz-submit" id="submitQuiz" type="button" disabled>Submit my answers</button><div class="quiz-result" id="score" aria-live="polite"><p id="scoreText">Answer all five questions, then submit your answers.</p><button class="btn secondary" id="retryQuiz" type="button" hidden>Try again</button><div class="callout">Review every explanation and repeat the practice activity to build confidence.</div></div></section>
+</div>
+<div class="controls"><button class="btn secondary" id="prev" disabled>← Previous</button><div class="progress" aria-label="Lesson progress"><span id="bar"></span></div><span class="counter" id="counter">1 / 12</span><div class="control-group"><button class="btn" id="next">Next →</button></div></div>
+</main></div>
+<script>
+(()=>{
+ const slides=[...document.querySelectorAll('.slide')],items=[...document.querySelectorAll('#outline li')];
+ const prev=document.getElementById('prev'),next=document.getElementById('next');
+ const counter=document.getElementById('counter'),bar=document.getElementById('bar');
+ const quizzes=[...document.querySelectorAll('.quiz')];
+ const submit=document.getElementById('submitQuiz'),scoreText=document.getElementById('scoreText'),retry=document.getElementById('retryQuiz');
+ let current=0,unlocked=0,submitted=false;
+ function render(){
+  slides.forEach((s,n)=>s.classList.toggle('active',n===current));
+  items.forEach((item,n)=>{
+   const canOpen=n<=unlocked;
+   item.classList.toggle('active',n===current);
+   item.classList.toggle('unlocked',canOpen);
+   item.classList.toggle('locked',!canOpen);
+   if(canOpen){item.setAttribute('role','button');item.setAttribute('tabindex','0');item.removeAttribute('aria-disabled');}
+   else{item.removeAttribute('role');item.removeAttribute('tabindex');item.setAttribute('aria-disabled','true');}
+   if(n===current)item.setAttribute('aria-current','step');else item.removeAttribute('aria-current');
+  });
+  prev.disabled=current===0;
+  next.textContent=current===slides.length-1?'Back to start ↺':'Next →';
+  counter.textContent=(current+1)+' / '+slides.length;
+  bar.style.width=((current+1)/slides.length*100)+'%';
+  window.scrollTo({top:0,behavior:'smooth'});
+ }
+ function goNext(){
+  if(current<slides.length-1){unlocked=Math.max(unlocked,current+1);current++;render();}
+  else{current=0;render();}
+ }
+ prev.addEventListener('click',()=>{if(current>0){current--;render();}});
+ next.addEventListener('click',goNext);
+ items.forEach((item,i)=>{
+  const open=()=>{if(i<=unlocked){current=i;render();}};
+  item.addEventListener('click',open);
+  item.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&i<=unlocked){e.preventDefault();open();}});
+ });
+ document.addEventListener('keydown',e=>{
+  if(e.target.closest('button')||e.target.closest('[role=button]'))return;
+  if(e.key==='ArrowRight'){e.preventDefault();goNext();}
+  if(e.key==='ArrowLeft'&&current>0){e.preventDefault();current--;render();}
+ });
+ quizzes.forEach(q=>{
+  q.querySelectorAll('button[data-choice]').forEach(b=>b.addEventListener('click',()=>{
+   if(submitted)return;
+   q.querySelectorAll('button[data-choice]').forEach(x=>{x.classList.remove('selected');x.setAttribute('aria-pressed','false');});
+   b.classList.add('selected');b.setAttribute('aria-pressed','true');q.dataset.selected=b.dataset.choice;
+   const count=quizzes.filter(x=>x.dataset.selected).length;
+   q.querySelector('.feedback').textContent=(b.dataset.choice===q.dataset.answer?'Correct! ':'Not quite. ')+q.dataset.explain;
+   q.classList.add('reviewed');
+   scoreText.textContent=count<quizzes.length?'Answered '+count+' of 5. Continue answering.':'All five answered. Submit your answers.';
+   submit.disabled=count!==quizzes.length;
+  }));
+ });
+ submit.addEventListener('click',()=>{
+  if(submitted||quizzes.some(q=>!q.dataset.selected))return;
+  submitted=true;let score=0;
+  quizzes.forEach(q=>{
+   const chosen=q.dataset.selected,correct=chosen===q.dataset.answer;
+   if(correct)score++;
+   q.classList.add('reviewed');
+   q.querySelectorAll('button[data-choice]').forEach(b=>{
+    b.disabled=true;
+    if(b.dataset.choice===q.dataset.answer)b.classList.add('correct');
+    if(b.dataset.choice===chosen&&!correct)b.classList.add('incorrect');
+   });
+   q.querySelector('.feedback').textContent=(correct?'Correct. ':'Not quite. ')+q.dataset.explain;
+  });
+  const percent=Math.round(score/quizzes.length*100);
+  scoreText.textContent='Your score: '+score+' / '+quizzes.length+' ('+percent+'%). '+(percent>=70?'You passed! Continue to complete the lesson.':'Keep practicing. Review the explanations and try again.');
+  submit.disabled=true;submit.hidden=true;retry.hidden=false;
+ });
+ retry.addEventListener('click',()=>{
+  submitted=false;
+  quizzes.forEach(q=>{
+   delete q.dataset.selected;q.classList.remove('reviewed');
+   q.querySelectorAll('button[data-choice]').forEach(b=>{b.disabled=false;b.classList.remove('correct','incorrect','selected');b.setAttribute('aria-pressed','false');});
+   q.querySelector('.feedback').textContent='';
+  });
+  scoreText.textContent='Answer all five questions, then submit your answers.';
+  submit.hidden=false;submit.disabled=true;retry.hidden=true;
+ });
+ render();
+})();
+</script>></body></html>
