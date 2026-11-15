@@ -77,7 +77,19 @@ table{width:100%;border-collapse:collapse;margin-top:14px;font-size:14px}th,td{t
 <div class="quiz" data-answer="A" data-explain="Structure must be checked from appropriate angles and adapted to the nail, length, shape and product system."><h3>3. How should you inspect nail structure?</h3><div class="answers"><button data-choice="A">A. Review side, top and front views and consider the individual nail.</button><button data-choice="B">B. Look only at the shine.</button><button data-choice="C">C. Use one fixed apex position for every nail.</button></div><p class="feedback" aria-live="polite"></p></div>
 <div class="quiz" data-answer="B" data-explain="Use the lamp and curing schedule specified or approved by the product manufacturer."><h3>4. What determines the correct curing process?</h3><div class="answers"><button data-choice="A">A. Any lamp that looks bright enough.</button><button data-choice="B">B. The product manufacturer's approved lamp and schedule.</button><button data-choice="C">C. A shorter time if the surface looks glossy.</button></div><p class="feedback" aria-live="polite"></p></div>
 <div class="quiz" data-answer="C" data-explain="A complete practical review includes preparation, consultation, application, structure, finish, inspection and client care."><h3>5. What demonstrates a complete service process?</h3><div class="answers"><button data-choice="A">A. Only a glossy final photograph.</button><button data-choice="B">B. Only completing the quiz.</button><button data-choice="C">C. Safe preparation, suitable application, inspection and aftercare.</button></div><p class="feedback" aria-live="polite"></p></div>
-<button class="btn quiz-submit" id="submitQuiz" type="button" disabled>Submit my answers</button><div class="quiz-result" id="score" aria-live="polite"><p id="scoreText">Answer all five questions, then submit your answers.</p><button class="btn secondary" id="retryQuiz" type="button" hidden>Try again</button><div class="callout">A quiz checks knowledge. Practical skills still need observation and feedback from an educator.</div></div></section></div>
+<button class="btn quiz-submit" id="submitQuiz" type="button" disabled>Submit my answers</button><div class="quiz-result" id="score" aria-live="polite"><p id="scoreText">Answer all five questions, then submit your answers.</p><button class="btn secondary" id="retryQuiz" type="button" hidden>Try again</button><div class="callout">A quiz checks knowledge. Practical skills still need observation and feedback from an educator.</div></div></section>
+<section class="slide completion-slide">
+ <div class="eyebrow">LESSON COMPLETE</div>
+ <h1>Excellent progress!</h1>
+ <p class="lead">You have reached the end of this lesson.</p>
+ <div class="grid2" style="margin-top:28px">
+  <div class="panel"><h3>Reflect</h3><p>What is one important idea you will use in your next practice session?</p></div>
+  <div class="panel"><h3>Practise</h3><p>Repeat the activity until you can explain and demonstrate each step confidently.</p></div>
+ </div>
+ <div class="callout" style="margin-top:28px"><strong>Professional standard:</strong> Work carefully, follow product instructions and keep client health and safety at the centre of every service.</div>
+ <a class="btn" href="index.html" style="display:inline-block;text-decoration:none;margin-top:28px">Return to your learning hub →</a>
+</section>
+</div>
 <div class="controls"><button class="btn secondary" id="prev" disabled>← Previous</button><div class="progress" aria-label="Lesson progress"><span id="bar"></span></div><div class="counter" id="counter">01 / 12</div><button class="btn" id="next">Next →</button></div></main></div>
 <script>
 (()=>{
@@ -99,14 +111,14 @@ table{width:100%;border-collapse:collapse;margin-top:14px;font-size:14px}th,td{t
    if(n===current)item.setAttribute('aria-current','step');else item.removeAttribute('aria-current');
   });
   prev.disabled=current===0;
-  next.textContent=current===slides.length-1?'Back to start ↺':'Next →';
+  next.textContent=current===slides.length-1?'Complete lesson':'Next →';
   counter.textContent=(current+1)+' / '+slides.length;
   bar.style.width=((current+1)/slides.length*100)+'%';
   window.scrollTo({top:0,behavior:'smooth'});
  }
  function goNext(){
   if(current<slides.length-1){unlocked=Math.max(unlocked,current+1);current++;render();}
-  else{current=0;render();}
+  else{window.location.href='index.html';}
  }
  prev.addEventListener('click',()=>{if(current>0){current--;render();}});
  next.addEventListener('click',goNext);
