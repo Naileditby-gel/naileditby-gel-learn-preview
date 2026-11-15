@@ -61,7 +61,7 @@ table{width:100%;border-collapse:collapse;margin-top:14px;font-size:14px}th,td{t
 <section class="slide"><div class="eyebrow">10 · COMMON APPLICATION PROBLEMS</div><h2>Recognise the fault. Pause and reassess.</h2><div class="grid2"><div class="panel"><span class="badge warn">GAP OR AIR POCKET</span><h3>Contact problem</h3><p>Recheck size, curvature and the system's contact requirements. Follow its correction or reapplication instructions.</p></div><div class="panel"><span class="badge warn">OFF-CENTRE TIP / FORM</span><h3>Alignment problem</h3><p>Reposition before proceeding, following the system instructions.</p></div><div class="panel"><span class="badge warn">PRODUCT ON SKIN</span><h3>Safety concern</h3><p>Remove uncured product safely before curing. Never cure product on skin.</p></div><div class="panel"><span class="badge warn">BULK OR LIFTING</span><h3>Structure concern</h3><p>Investigate fit, preparation, compatibility, curing and aftercare. Do not assume one cause.</p></div></div><div class="callout">Do not hide gaps with extra adhesive or cure over a known application fault.</div></section>
 <section class="slide"><div class="eyebrow">11 · PRACTICE & PROFESSIONAL CHECKLIST</div><h2>Practice with intention</h2><div class="grid2"><div class="panel"><h3>Practice workflow</h3><ol class="list"><li>Compare the three methods and choose one for a practice scenario.</li><li>Read the selected manufacturer's guide.</li><li>Check tip fit or form placement.</li><li>Rehearse on a training hand or practice tip—not a paying client.</li><li>Inspect top, side and front views.</li><li>Record one strength and one improvement area.</li></ol></div><div class="panel"><h3>Before proceeding</h3><ul class="list"><li>Method suits the nail and service.</li><li>Tip fit or form placement checked.</li><li>Product and lamp compatible.</li><li>Exact prep and cure instructions followed.</li><li>No uncured product cured on skin.</li><li>Extension aligned and inspected.</li></ul></div></div><div class="callout"><strong>Key takeaway:</strong> Extension quality begins before product application. Planning, fit, controlled placement, compatible curing and careful inspection all matter.</div></section>
 <section class="slide" id="knowledge"><div class="eyebrow">12 · CHECK YOUR UNDERSTANDING</div><h2>Knowledge check</h2><p class="lead">Choose one answer for each question. Your results and explanations will appear after you submit all five answers.</p>
-<div id="quiz"></div><button class="btn quiz-submit" id="submitQuiz" disabled>Submit answers</button><div id="quizResult" aria-live="polite"></div><button class="btn secondary" id="retryQuiz" hidden>Try again</button></section>
+<div id="quiz"></div><button class="btn quiz-submit" id="submitQuiz" disabled>Submit my answers</button><div id="quizResult" class="quiz-result" aria-live="polite" hidden><p id="scoreMessage"></p><button class="btn secondary" id="retryQuiz" hidden>Try again</button><div class="callout">Review every explanation and repeat the practice activity to build confidence.</div></div></section>
 </div>
 <div class="controls"><button class="btn secondary" id="prev" disabled>← Previous</button><div class="progress" aria-label="Lesson progress"><span id="bar"></span></div><span class="counter" id="counter">1 / 12</span><div class="control-group"><button class="btn" id="next">Next →</button></div></div>
 </main></div>
@@ -108,7 +108,7 @@ table{width:100%;border-collapse:collapse;margin-top:14px;font-size:14px}th,td{t
  {q:'Can one lamp cure every gel product for the same amount of time?',a:['Yes, all lamps and gels are identical.','No; use the lamp and cure schedule specified or approved for the product system.','Any bright light is suitable.'],c:1,e:'Curing is system-dependent. Use the approved lamp and exact manufacturer schedule.'},
  {q:'What should happen if uncured gel touches the skin?',a:['Cure it immediately.','Cover it with top coat.','Remove it safely according to product instructions before curing.'],c:2,e:'Never cure uncured product on skin. Follow the product’s safety directions for removal.'}
  ];
- const quiz=document.getElementById('quiz'),submit=document.getElementById('submitQuiz'),result=document.getElementById('quizResult'),retry=document.getElementById('retryQuiz');
+ const quiz=document.getElementById('quiz'),submit=document.getElementById('submitQuiz'),result=document.getElementById('quizResult'),scoreMessage=document.getElementById('scoreMessage'),retry=document.getElementById('retryQuiz');
  let chosen=Array(questions.length).fill(null),reviewed=false;
  function renderQuiz(){
   quiz.innerHTML='';
@@ -124,7 +124,7 @@ table{width:100%;border-collapse:collapse;margin-top:14px;font-size:14px}th,td{t
     answers.appendChild(b);
    });
    card.appendChild(answers);
-   const fb=document.createElement('p');fb.className='feedback';fb.textContent=(chosen[i]===q.c?'Correct. ':'Not quite. ')+q.e;card.appendChild(fb);
+   const fb=document.createElement('p');fb.className='feedback';if(chosen[i]!==null){fb.textContent=(chosen[i]===q.c?'Correct! ':'Not quite. ')+q.e;card.classList.add('reviewed');}card.appendChild(fb);
    if(reviewed)card.classList.add('reviewed');quiz.appendChild(card);
   });
   submit.disabled=reviewed||chosen.some(v=>v===null);
@@ -133,12 +133,12 @@ table{width:100%;border-collapse:collapse;margin-top:14px;font-size:14px}th,td{t
   if(chosen.some(v=>v===null)||reviewed)return;
   reviewed=true;renderQuiz();
   const score=chosen.reduce((n,v,i)=>n+(v===questions[i].c?1:0),0),percent=Math.round(score/questions.length*100);
-  result.className='quiz-score';result.hidden=false;
-  result.innerHTML='<div class="eyebrow">YOUR KNOWLEDGE CHECK RESULT</div><div class="score-number">'+score+' / '+questions.length+'</div><strong>'+percent+'% correct</strong><div class="score-detail">You answered '+score+' correctly out of '+questions.length+'. Review the explanations above, then try again if you would like more practice.</div>';
+  result.hidden=false;
+  scoreMessage.textContent='Your score: '+score+' / '+questions.length+' ('+percent+'%). '+(percent>=70?'You passed! Continue to complete the lesson.':'Keep practicing. Review the explanations and try again.');
   retry.hidden=false;submit.hidden=true;result.scrollIntoView({behavior:'smooth',block:'center'});
  });
  retry.addEventListener('click',()=>{
-  chosen=Array(questions.length).fill(null);reviewed=false;result.textContent='';result.className='';result.hidden=true;retry.hidden=true;submit.hidden=false;renderQuiz();
+  chosen=Array(questions.length).fill(null);reviewed=false;scoreMessage.textContent='';result.hidden=true;retry.hidden=true;submit.hidden=false;renderQuiz();
  });
  renderQuiz();render();
 })();
