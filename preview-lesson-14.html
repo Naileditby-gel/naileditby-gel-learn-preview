@@ -126,8 +126,7 @@ table{width:100%;border-collapse:collapse;margin-top:14px;font-size:14px}th,td{t
    q.querySelectorAll('button[data-choice]').forEach(x=>{x.classList.remove('selected');x.setAttribute('aria-pressed','false');});
    b.classList.add('selected');b.setAttribute('aria-pressed','true');q.dataset.selected=b.dataset.choice;
    const count=quizzes.filter(x=>x.dataset.selected).length;
-   q.querySelector('.feedback').textContent=(b.dataset.choice===q.dataset.answer?'Correct! ':'Not quite. ')+q.dataset.explain;
-   q.classList.add('reviewed');
+   
    scoreText.textContent=count<quizzes.length?'Answered '+count+' of 5. Continue answering.':'All five answered. Submit your answers.';
    submit.disabled=count!==quizzes.length;
   }));
