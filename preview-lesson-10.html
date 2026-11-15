@@ -41,13 +41,32 @@ table{width:100%;border-collapse:collapse;margin-top:14px;font-size:14px}th,td{t
 }
 .diagram img{display:block;width:100%;height:auto;max-width:100%;border-radius:12px}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+/* Navigation visibility control */
+.top-actions{display:flex;align-items:center;gap:14px}
+.nav-toggle{padding:9px 14px;white-space:nowrap}
+body.nav-collapsed .shell{grid-template-columns:minmax(0,1fr)}
+body.nav-collapsed .rail{display:none!important}
+.top{gap:12px;flex-wrap:wrap}
+.top-actions{margin-left:auto}
+@media(max-width:800px){.top-actions{gap:8px}.nav-toggle{padding:8px 11px;font-size:11px}}
+/* Keep lesson visuals inside the slide card */
+.grid2,.grid3,.compare{min-width:0}
+.grid2>*,.grid3>*{min-width:0;max-width:100%}
+.photo-card{display:block;margin:0;width:100%;max-width:100%;min-width:0;overflow:hidden;border-radius:16px}
+.photo-card img{display:block;width:100%;max-width:100%;height:auto;max-height:420px;object-fit:cover;border-radius:16px}
+.photo-card figcaption{font:11px Arial;color:var(--muted);text-align:center;margin-top:8px}
+.diagram{min-width:0;max-width:100%;overflow:hidden}
+.diagram svg,.diagram img{display:block;width:100%;max-width:100%;height:auto}
+.completion-slide{min-height:520px;overflow:visible}
+.completion-slide>*{position:relative;z-index:1}
 </style></head>
 <body>
 <div class="shell">
-<aside class="rail"><div class="brand">Naileditby_gel<small>LEARN · PRACTICE · PERFECT</small></div><div class="course">Intermediate learning path</div><h2>Lesson 10<br>Extension Application & Structure</h2>
+<aside class="rail" id="lessonRail"><div class="brand">Naileditby_gel<small>LEARN · PRACTICE · PERFECT</small></div><div class="course">Intermediate learning path</div><h2>Lesson 10<br>Extension Application & Structure</h2>
 <ol id="outline"><li class="active unlocked" role="button" tabindex="0" aria-current="step">Welcome</li><li class="locked" aria-disabled="true">Learning outcomes</li><li class="locked" aria-disabled="true">Three extension methods</li><li class="locked" aria-disabled="true">Choose the method</li><li class="locked" aria-disabled="true">Plan the service</li><li class="locked" aria-disabled="true">Preparation & fit</li><li class="locked" aria-disabled="true">Product placement</li><li class="locked" aria-disabled="true">Curing & compatibility</li><li class="locked" aria-disabled="true">Refine & inspect</li><li class="locked" aria-disabled="true">Common problems</li><li class="locked" aria-disabled="true">Practice checklist</li><li class="locked" aria-disabled="true">Knowledge check</li></ol>
 <div class="rail-note">STUDENT PREVIEW<br>Illustrative learning diagrams · Follow the exact instructions for your chosen product system.</div></aside>
-<main class="main"><header class="top"><span>INTERMEDIATE · LESSON 10</span><a href="index.html">← Learning home</a></header>
+<main class="main"><header class="top"><span>INTERMEDIATE · LESSON 10</span><div class="top-actions"><button class="btn secondary nav-toggle" id="toggleNav" type="button" aria-expanded="true" aria-controls="lessonRail">☰ Hide navigation</button><a href="index.html">← Learning home</a></div></header>
 <div class="stage" id="stage">
 <section class="slide cover active"><div class="eyebrow">INTERMEDIATE · LESSON 10</div><div class="cover-mark">✦</div><div class="tag">LEARN · PRACTICE · PERFECT</div><h1>Extension Application<br>& Structure</h1><div class="rule"></div><p class="lead">Understand extension methods, plan a suitable service, and learn the checkpoints behind controlled, professional application.</p><div class="title-note"><strong class="gold">A strong result starts before product application.</strong><p>Fit · Alignment · Product control · Compatibility · Inspection</p></div></section>
 <section class="slide"><div class="eyebrow">02 · YOUR LEARNING GOALS</div><h2>What you'll learn</h2><p class="lead">By the end of this lesson, you'll be able to:</p><div class="grid2"><div class="panel"><ul class="list"><li>Distinguish full-cover tips, partial-well tips and sculpted forms.</li><li>Choose a method suited to the natural nail, requested length and product system.</li><li>Explain preparation, fit, support, product control and curing checkpoints.</li></ul></div><div class="panel"><ul class="list"><li>Recognise gaps, bubbles, skin contact and alignment faults.</li><li>Describe a methodical, system-specific workflow.</li><li>Inspect an extension and know when to stop or reassess.</li></ul></div></div><div class="callout">This lesson is a theory and practice framework—not a substitute for supervised hands-on training.</div></section>
