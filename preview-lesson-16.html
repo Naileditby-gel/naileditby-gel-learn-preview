@@ -48,7 +48,7 @@ table{width:100%;border-collapse:collapse;margin-top:14px;font-size:14px}th,td{t
 <ol id="outline"><li class="active unlocked" role="button" tabindex="0" aria-current="step">Welcome</li><li class="locked" aria-disabled="true">Assessment overview</li><li class="locked" aria-disabled="true">Before the service</li><li class="locked" aria-disabled="true">Consultation & planning</li><li class="locked" aria-disabled="true">Hygiene & safety</li><li class="locked" aria-disabled="true">Application plan</li><li class="locked" aria-disabled="true">Structure & architecture</li><li class="locked" aria-disabled="true">Finishing & nail art</li><li class="locked" aria-disabled="true">Final inspection</li><li class="locked" aria-disabled="true">Reflection & troubleshooting</li><li class="locked" aria-disabled="true">Practical assessment rubric</li><li class="locked" aria-disabled="true">Knowledge check</li></ol>
 <div class="rail-note">STUDENT PREVIEW<br>Illustrative learning diagrams · Follow the exact instructions for your chosen product system.</div></aside>
 <main class="main"><header class="top"><span>INTERMEDIATE · LESSON 16</span><a href="index.html">← Learning home</a></header>
-<div class="stage">
+<div class="stage" id="stage">
 <section class="slide active cover"><div class="eyebrow">INTERMEDIATE NAIL EDUCATION · 16</div><div class="cover-mark">N</div><div class="tag">NAILEDITBY_GEL LEARN</div><h1>Final Practical<br><em class="gold">Assessment</em></h1><p class="lead">Bring your learning together through consultation, preparation, application planning, structure, finishing, hygiene and professional client care.</p><div class="title-note"><strong>Learn. Practice. Perfect.</strong><p>Demonstrate your process. Explain your decisions. Reflect on your result.</p></div></section>
 
 <section class="slide"><div class="eyebrow">01 · ASSESSMENT OVERVIEW</div><h2>Show the complete service process</h2><div class="rule"></div><div class="grid2"><div><ul class="list"><li>Prepare a clean workstation and organise tools and products.</li><li>Consult with the client and assess nail suitability.</li><li>Choose a suitable service method and explain your plan.</li><li>Demonstrate controlled application, structure and finishing.</li><li>Inspect the result, explain aftercare and reflect on your work.</li></ul></div><div class="panel"><span class="badge">IMPORTANT</span><h3>Learning assessment, not automatic certification</h3><p>This lesson helps you review your knowledge and practical readiness. A quiz result alone does not prove practical competence. Practical work should be observed and assessed by a qualified educator using appropriate local requirements.</p></div></div></section>
@@ -79,4 +79,88 @@ table{width:100%;border-collapse:collapse;margin-top:14px;font-size:14px}th,td{t
 <div class="quiz" data-answer="C" data-explain="A complete practical review includes preparation, consultation, application, structure, finish, inspection and client care."><h3>5. What demonstrates a complete service process?</h3><div class="answers"><button data-choice="A">A. Only a glossy final photograph.</button><button data-choice="B">B. Only completing the quiz.</button><button data-choice="C">C. Safe preparation, suitable application, inspection and aftercare.</button></div><p class="feedback" aria-live="polite"></p></div>
 <button class="btn quiz-submit" id="submitQuiz" type="button" disabled>Submit my answers</button><div class="quiz-result" id="score" aria-live="polite"><p id="scoreText">Answer all five questions, then submit your answers.</p><button class="btn secondary" id="retryQuiz" type="button" hidden>Try again</button><div class="callout">A quiz checks knowledge. Practical skills still need observation and feedback from an educator.</div></div></section></div>
 <div class="controls"><button class="btn secondary" id="prev" disabled>← Previous</button><div class="progress" aria-label="Lesson progress"><span id="bar"></span></div><div class="counter" id="counter">01 / 12</div><button class="btn" id="next">Next →</button></div></main></div>
+<script>
+(()=>{
+ const slides=[...document.querySelectorAll('.slide')],items=[...document.querySelectorAll('#outline li')];
+ const prev=document.getElementById('prev'),next=document.getElementById('next');
+ const counter=document.getElementById('counter'),bar=document.getElementById('bar');
+ const quizzes=[...document.querySelectorAll('.quiz')];
+ const submit=document.getElementById('submitQuiz'),scoreText=document.getElementById('scoreText'),retry=document.getElementById('retryQuiz');
+ let current=0,unlocked=0,submitted=false;
+ function render(){
+  slides.forEach((s,n)=>s.classList.toggle('active',n===current));
+  items.forEach((item,n)=>{
+   const canOpen=n<=unlocked;
+   item.classList.toggle('active',n===current);
+   item.classList.toggle('unlocked',canOpen);
+   item.classList.toggle('locked',!canOpen);
+   if(canOpen){item.setAttribute('role','button');item.setAttribute('tabindex','0');item.removeAttribute('aria-disabled');}
+   else{item.removeAttribute('role');item.removeAttribute('tabindex');item.setAttribute('aria-disabled','true');}
+   if(n===current)item.setAttribute('aria-current','step');else item.removeAttribute('aria-current');
+  });
+  prev.disabled=current===0;
+  next.textContent=current===slides.length-1?'Back to start ↺':'Next →';
+  counter.textContent=(current+1)+' / '+slides.length;
+  bar.style.width=((current+1)/slides.length*100)+'%';
+  window.scrollTo({top:0,behavior:'smooth'});
+ }
+ function goNext(){
+  if(current<slides.length-1){unlocked=Math.max(unlocked,current+1);current++;render();}
+  else{current=0;render();}
+ }
+ prev.addEventListener('click',()=>{if(current>0){current--;render();}});
+ next.addEventListener('click',goNext);
+ items.forEach((item,i)=>{
+  const open=()=>{if(i<=unlocked){current=i;render();}};
+  item.addEventListener('click',open);
+  item.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&i<=unlocked){e.preventDefault();open();}});
+ });
+ document.addEventListener('keydown',e=>{
+  if(e.target.closest('button')||e.target.closest('[role=button]'))return;
+  if(e.key==='ArrowRight'){e.preventDefault();goNext();}
+  if(e.key==='ArrowLeft'&&current>0){e.preventDefault();current--;render();}
+ });
+ quizzes.forEach(q=>{
+  q.querySelectorAll('button[data-choice]').forEach(b=>b.addEventListener('click',()=>{
+   if(submitted)return;
+   q.querySelectorAll('button[data-choice]').forEach(x=>{x.classList.remove('selected');x.setAttribute('aria-pressed','false');});
+   b.classList.add('selected');b.setAttribute('aria-pressed','true');q.dataset.selected=b.dataset.choice;
+   const count=quizzes.filter(x=>x.dataset.selected).length;
+   q.querySelector('.feedback').textContent=(b.dataset.choice===q.dataset.answer?'Correct! ':'Not quite. ')+q.dataset.explain;
+   q.classList.add('reviewed');
+   scoreText.textContent=count<quizzes.length?'Answered '+count+' of 5. Continue answering.':'All five answered. Submit your answers.';
+   submit.disabled=count!==quizzes.length;
+  }));
+ });
+ submit.addEventListener('click',()=>{
+  if(submitted||quizzes.some(q=>!q.dataset.selected))return;
+  submitted=true;let score=0;
+  quizzes.forEach(q=>{
+   const chosen=q.dataset.selected,correct=chosen===q.dataset.answer;
+   if(correct)score++;
+   q.classList.add('reviewed');
+   q.querySelectorAll('button[data-choice]').forEach(b=>{
+    b.disabled=true;
+    if(b.dataset.choice===q.dataset.answer)b.classList.add('correct');
+    if(b.dataset.choice===chosen&&!correct)b.classList.add('incorrect');
+   });
+   q.querySelector('.feedback').textContent=(correct?'Correct. ':'Not quite. ')+q.dataset.explain;
+  });
+  const percent=Math.round(score/quizzes.length*100);
+  scoreText.textContent='Your score: '+score+' / '+quizzes.length+' ('+percent+'%). '+(percent>=70?'You passed! Continue to complete the lesson.':'Keep practicing. Review the explanations and try again.');
+  submit.disabled=true;submit.hidden=true;retry.hidden=false;
+ });
+ retry.addEventListener('click',()=>{
+  submitted=false;
+  quizzes.forEach(q=>{
+   delete q.dataset.selected;q.classList.remove('reviewed');
+   q.querySelectorAll('button[data-choice]').forEach(b=>{b.disabled=false;b.classList.remove('correct','incorrect','selected');b.setAttribute('aria-pressed','false');});
+   q.querySelector('.feedback').textContent='';
+  });
+  scoreText.textContent='Answer all five questions, then submit your answers.';
+  submit.hidden=false;submit.disabled=true;retry.hidden=true;
+ });
+ render();
+})();
+</script>
 </body></html>
