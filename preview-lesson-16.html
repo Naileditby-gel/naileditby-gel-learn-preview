@@ -60,7 +60,7 @@ body.nav-collapsed .rail{display:none!important}
 .diagram svg,.diagram img{display:block;width:100%;max-width:100%;height:auto}
 .completion-slide{min-height:520px;overflow:visible}
 .completion-slide>*{position:relative;z-index:1}
-</style></head>
+</style><style id="INTERMEDIATE_ACCESS_GUARD">html.access-check body{visibility:hidden}</style><script>document.documentElement.classList.add('access-check');</script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.0/dist/umd/supabase.min.js"></script></head>
 <body>
 <div class="shell">
 <aside class="rail" id="lessonRail"><div class="brand">Naileditby_gel<small>LEARN · PRACTICE · PERFECT</small></div><div class="course">Intermediate learning path</div><h2>Lesson 16<br>Final Practical Assessment</h2>
@@ -199,4 +199,18 @@ body.nav-collapsed .rail{display:none!important}
  render();
 })();
 </script>
-</body></html>
+<script id="INTERMEDIATE_ACCESS_CHECK">
+(async()=>{
+ const showDenied=(message)=>{document.body.innerHTML='<main style="max-width:680px;margin:10vh auto;padding:32px 24px;background:#fff;border:1px solid #eadde0;border-radius:22px;text-align:center;font-family:Georgia;color:#493940"><p style="font:11px Arial;letter-spacing:.16em;color:#b89a62">NAILEDITBY_GEL LEARN</p><h1 style="color:#754c5a;font-weight:400">Intermediate lesson locked</h1><p>'+message+'</p><p>Lesson 9 is available as a free preview. Lessons 10–16 require an approved Intermediate enrollment.</p><p><a href="account.html" style="display:inline-block;margin:8px;padding:12px 20px;border-radius:24px;background:#754c5a;color:#fff;text-decoration:none">Student account</a> <a href="index.html#paths" style="color:#754c5a">Learning paths</a></p></main>';document.documentElement.classList.remove('access-check');};
+ try{
+  const sb=window.supabase.createClient('https://vlocuitjamseqpzqohgs.supabase.co','sb_publishable_bodb7BhOwkONRc5gy41ZLQ_pYOKCfCa');
+  const {data:{session},error:sessionError}=await sb.auth.getSession();
+  if(sessionError||!session){showDenied('Please sign in with your student account to continue.');return;}
+  const {data:course,error:courseError}=await sb.from('learning_courses').select('id').eq('slug','intermediate').maybeSingle();
+  if(courseError||!course){showDenied('We could not verify the Intermediate learning path. Please try again later.');return;}
+  const {data:enrollment,error:enrollmentError}=await sb.from('learning_enrollments').select('id').eq('user_id',session.user.id).eq('course_id',course.id).maybeSingle();
+  if(enrollmentError||!enrollment){showDenied('Your Intermediate enrollment has not yet been approved.');return;}
+  document.documentElement.classList.remove('access-check');
+ }catch(e){showDenied('We could not verify your access. Please sign in again or contact support.');}
+})();
+</script></body></html>
