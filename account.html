@@ -71,7 +71,7 @@ footer{text-align:center;padding:24px;font:11px Arial;color:var(--muted)}
 <div class="panel"><div class="dashboard-head"><div><div class="eyebrow">STUDENT DASHBOARD</div><h2 id="welcomeName">Welcome!</h2><p id="studentEmail" class="muted"></p></div><div><a id="ownerReviewLink" class="btn secondary hidden" href="admin-dashboard.html">♡ Owner dashboard</a> <button id="signoutButton" class="secondary">Sign out</button></div></div>
 <div class="stats"><div class="stat"><b id="enrolledCount">0</b><span class="muted">Learning paths</span></div><div class="stat"><b id="completedCount">0</b><span class="muted">Lessons completed</span></div><div class="stat"><b id="pendingCount">0</b><span class="muted">Pending payments</span></div></div>
 <div class="tabs" role="tablist"><button class="active" data-tab="courses" onclick="showStudentTab(&quot;courses&quot;)">My learning paths</button><button data-tab="payments" onclick="showStudentTab(&quot;payments&quot;)">Payment history</button><button data-tab="profile" onclick="showStudentTab(&quot;profile&quot;)">My profile</button></div>
-<div id="tab-courses"><section class="panel"><div class="section-launch"><div><div class="eyebrow">COURSE CATALOGUE</div><h2>Explore learning paths</h2><p class="muted">Choose a learning path that matches your goals. Lifetime access begins after payment approval.</p></div><a class="btn" href="purchase.html">♡ Order a learning path</a></div></section><section class="panel" style="margin-top:24px"><div class="section-launch"><div><div class="eyebrow">YOUR LEARNING LIBRARY</div><h2>Beginner lessons</h2><p class="muted">Open your lesson library to continue learning.</p></div><a class="btn" href="lesson-library.html">Click here to open all lessons →</a></div></section><section class="panel" style="margin-top:24px"><div class="section-launch"><div><div class="eyebrow">YOUR ACHIEVEMENTS</div><h2>Your lesson progress</h2><p class="muted">See your completed lessons and certificate information.</p></div><a class="btn secondary" href="progress-details.html">View Details →</a></div></section></div>
+<div id="tab-courses"><section class="panel"><div class="section-launch"><div><div class="eyebrow">COURSE CATALOGUE</div><h2>Explore learning paths</h2><p class="muted">Choose a learning path that matches your goals. Lifetime access begins after payment approval.</p></div><a class="btn" href="purchase.html">♡ Order a learning path</a></div></section><section class="panel" style="margin-top:24px"><div class="section-launch"><div><div class="eyebrow">YOUR LEARNING LIBRARY</div><h2>Beginner lessons</h2><p class="muted">Open your Beginner lessons below. Lesson 1 is available as a free preview; the remaining lessons require enrollment.</p></div><a class="btn secondary" href="lesson-library.html">Beginner lesson library →</a></div><div id="beginnerLessons" class="course-grid"></div></section><section class="panel" style="margin-top:24px"><div class="section-launch"><div><div class="eyebrow">INTERMEDIATE LEARNING PATH</div><h2>Intermediate lessons</h2><p class="muted">Preview Lesson 9 for free. Lessons 10–16 unlock after Intermediate enrollment and payment approval.</p></div><a class="btn" id="intermediateOrderLink" href="purchase.html?course=intermediate">♡ Order Intermediate</a></div><div id="intermediateLessons" class="course-grid"></div></section><section class="panel" style="margin-top:24px"><div class="section-launch"><div><div class="eyebrow">YOUR ACHIEVEMENTS</div><h2>Your lesson progress</h2><p class="muted">See your completed lessons and certificate information.</p></div><a class="btn secondary" href="progress-details.html">View Details →</a></div></section></div>
 <div id="tab-payments" class="hidden"><h2>Payment history & notifications</h2><p class="muted">Your payment review updates appear here. Please check this page for the latest status while email notifications are being prepared.</p><div id="paymentHistory"><p class="muted">No payment records yet.</p></div></div>
 <div id="tab-profile" class="hidden"><h2>My profile</h2><form id="profileForm"><div class="field"><label for="profileName">Full name</label><input id="profileName" required maxlength="100"></div><div class="field"><label for="profilePhone">Phone number (optional)</label><input id="profilePhone" type="tel" maxlength="30"></div><button type="submit">Save profile</button></form><div id="profileMessage" class="message" role="status"></div><p class="muted" style="margin-top:22px">Want to book a nail appointment or view our services? <a href="https://naileditby-gel.com/">Visit the Naileditby_gel main website</a>.</p></div>
 </div>
@@ -215,6 +215,41 @@ footer{text-align:center;padding:24px;font:11px Arial;color:var(--muted)}
        const completed=completedSlugs.has(l.slug);
        return '<article class="course"><span class="pill">LESSON '+l.display_order+'</span> '+(completed?'<span class="pill" style="background:#f8edf0">✓ COMPLETED</span>':'')+'<h3>'+escapeHtml(l.title)+'</h3><p class="muted">'+(enrolled?'Included in your Beginner lifetime access.':(l.display_order===1?'Try the free preview.':'Available after Beginner enrollment approval.'))+'</p><a class="btn '+(enrolled?'':'secondary')+'" href="'+link+'">'+label+'</a></article>';
      }).join('')||'<p class="muted">Lessons are being prepared.</p>';
+   }
+   const intermediate=courseRows.find(c=>c.slug==='intermediate');
+   if(intermediate){
+     const lessons=[
+       {slug:'soft-gel-tips-proper-sizing',title:'Soft Gel Tips & Proper Sizing',display_order:9},
+       {slug:'extension-application-structure',title:'Extension Application & Structure',display_order:10},
+       {slug:'apex-balance-nail-architecture',title:'Apex, Balance & Nail Architecture',display_order:11},
+       {slug:'preventing-lifting-troubleshooting',title:'Preventing Lifting & Troubleshooting',display_order:12},
+       {slug:'infill-maintenance',title:'Infill & Maintenance',display_order:13},
+       {slug:'advanced-application-finishing',title:'Advanced Application & Finishing',display_order:14},
+       {slug:'nail-art-techniques',title:'Nail Art Techniques',display_order:15},
+       {slug:'final-practical-assessment',title:'Final Practical Assessment',display_order:16}
+     ];
+     const enrolled=enrollmentRows.some(e=>e.course_id===intermediate.id);
+     const completedSlugs=new Set(progressRows.filter(x=>x.status==='completed').map(x=>x.lesson?.slug));
+     const routes={
+       'soft-gel-tips-proper-sizing':'preview-lesson-09.html',
+       'extension-application-structure':'preview-lesson-10.html',
+       'apex-balance-nail-architecture':'preview-lesson-11.html',
+       'preventing-lifting-troubleshooting':'preview-lesson-12.html',
+       'infill-maintenance':'preview-lesson-13.html',
+       'advanced-application-finishing':'preview-lesson-14.html',
+       'nail-art-techniques':'preview-lesson-15.html',
+       'final-practical-assessment':'preview-lesson-16.html'
+     };
+     $('intermediateOrderLink').classList.toggle('hidden',enrolled);
+     $('intermediateLessons').innerHTML=lessons.map(l=>{
+       const isPreview=l.display_order===9;
+       const canOpen=enrolled||isPreview;
+       const href=canOpen?routes[l.slug]:(intermediate.is_published?'purchase.html?course=intermediate':'');
+       const label=enrolled?'Open lesson →':(isPreview?'Free preview →':(intermediate.is_published?'Locked · Enroll to unlock':'Enrollment opening soon'));
+       const completed=completedSlugs.has(l.slug);
+       const action=href?'<a class="btn '+(enrolled?'':'secondary')+'" href="'+href+'">'+label+'</a>':'<span class="pill">'+label+'</span>';
+       return '<article class="course"><span class="pill">LESSON '+l.display_order+'</span> '+(completed?'<span class="pill" style="background:#f8edf0">✓ COMPLETED</span>':'')+'<h3>'+escapeHtml(l.title)+'</h3><p class="muted">'+(enrolled?'Included in your Intermediate lifetime access.':(isPreview?'Try the free preview.':'Available after Intermediate enrollment approval.'))+'</p>'+action+'</article>';
+     }).join('');
    }
  }
  function escapeHtml(value){return String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
