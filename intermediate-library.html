@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#754c5a"><title>Intermediate Lessons | Naileditby_gel Learn</title>
+<style>
+:root{--rose:#754c5a;--pink:#f8edf0;--gold:#b89a62;--ink:#493940;--muted:#786a70;--paper:#fffaf8;--line:#eadde0}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px Georgia;line-height:1.6}.wrap{width:min(1000px,calc(100% - 32px));margin:auto}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:22px 0;flex-wrap:wrap}a{color:var(--rose)}h1,h2,h3{color:var(--rose);font-weight:400;line-height:1.2}h1{font-size:clamp(34px,5vw,48px)}h2{font-size:25px}.muted{color:var(--muted);font-size:14px}.eyebrow{font:11px Arial;letter-spacing:.16em;color:var(--gold)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin:24px 0}.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px}.btn,button{display:inline-block;border:0;border-radius:26px;padding:12px 20px;background:var(--rose);color:white;text-decoration:none;font:13px Arial;cursor:pointer}.secondary{background:var(--pink);color:var(--rose)}.pill{display:inline-block;border:1px solid var(--line);border-radius:18px;padding:4px 10px;font:10px Arial;color:var(--rose)}.notice{background:var(--pink);border-radius:12px;padding:16px;color:var(--rose);margin:18px 0}.footer{text-align:center;padding:30px;color:var(--muted);font:11px Arial}
+</style><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.0/dist/umd/supabase.min.js"></script></head>
+<body><div class="wrap"><header><a href="account.html"><b>Naileditby_gel Learn</b></a><a href="account.html#courses">← Back to learning hub</a></header>
+<main><div class="eyebrow">YOUR INTERMEDIATE LEARNING LIBRARY</div><h1>Intermediate lessons</h1><p class="muted">Develop confident application, product control, nail structure, troubleshooting and professional finishing through the Intermediate learning path.</p>
+<div id="message" class="notice">Checking your learning access…</div><section id="lessons" class="grid"></section></main></div><footer class="footer">Naileditby_gel Learn · Learn. Practice. Perfect.</footer>
+<script>
+(()=>{const sb=window.supabase.createClient('https://vlocuitjamseqpzqohgs.supabase.co','sb_publishable_bodb7BhOwkONRc5gy41ZLQ_pYOKCfCa');const $=id=>document.getElementById(id);const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));const lessons=[
+{n:9,title:'Soft Gel Tips & Proper Sizing',slug:'soft-gel-tips-proper-sizing',route:'lesson-09-full.html',preview:'preview-lesson-09.html'},
+{n:10,title:'Extension Application & Structure',slug:'extension-application-structure',route:'preview-lesson-10.html'},
+{n:11,title:'Apex, Balance & Nail Architecture',slug:'apex-balance-nail-architecture',route:'preview-lesson-11.html'},
+{n:12,title:'Preventing Lifting & Troubleshooting',slug:'preventing-lifting-troubleshooting',route:'preview-lesson-12.html'},
+{n:13,title:'Infill & Maintenance',slug:'infill-maintenance',route:'preview-lesson-13.html'},
+{n:14,title:'Advanced Application & Finishing',slug:'advanced-application-finishing',route:'preview-lesson-14.html'},
+{n:15,title:'Nail Art Techniques',slug:'nail-art-techniques',route:'preview-lesson-15.html'},
+{n:16,title:'Final Practical Assessment',slug:'final-practical-assessment',route:'preview-lesson-16.html'}];
+async function init(){const {data:{session}}=await sb.auth.getSession();if(!session){$('message').innerHTML='Please <a href="account.html">sign in</a> to view your Intermediate lesson library.';return}
+const {data:course,error:courseError}=await sb.from('learning_courses').select('id,is_published').eq('slug','intermediate').maybeSingle();if(courseError||!course){$('message').textContent='Intermediate lessons are currently unavailable.';return}
+const {data:enrollment,error:enrollmentError}=await sb.from('learning_enrollments').select('id').eq('user_id',session.user.id).eq('course_id',course.id).maybeSingle();if(enrollmentError){$('message').textContent='We could not verify your enrollment. Please refresh and try again.';return}
+const enrolled=!!enrollment;const {data:progressRows}=await sb.from('learning_lesson_progress').select('status,lesson:learning_lessons(slug)').eq('user_id',session.user.id);const completed=new Set((progressRows||[]).filter(p=>p.status==='completed').map(p=>p.lesson?.slug));
+$('message').textContent=enrolled?'Your Intermediate enrollment is active. Enjoy your lessons!':'Lesson 9 is available as a free preview. Lessons 10–16 unlock after Intermediate enrollment and payment approval.';
+$('lessons').innerHTML=lessons.map(l=>{const isPreview=l.n===9;const href=enrolled?l.route:(isPreview?l.preview:(course.is_published?'purchase.html?course=intermediate':''));const label=enrolled?'Open lesson →':(isPreview?'Free preview →':(course.is_published?'Enroll to unlock':'Enrollment opening soon'));const done=completed.has(l.slug);const detail=enrolled?'Included in your Intermediate lifetime access.':(isPreview?'Explore the free preview.':'Available after Intermediate enrollment approval.');const action=href?'<a class="btn '+(enrolled?'':'secondary')+'" href="'+href+'">'+label+'</a>':'<span class="pill">'+label+'</span>';return '<article class="card"><span class="pill">LESSON '+l.n+'</span> '+(done?'<span class="pill" style="background:#f8edf0">✓ COMPLETED</span>':'')+'<h2>'+esc(l.title)+'</h2><p class="muted">'+detail+'</p>'+action+'</article>'}).join('')}
+init()})();
+</script></body></html>
